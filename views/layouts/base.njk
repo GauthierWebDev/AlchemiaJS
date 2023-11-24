@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+  {% include 'partials/head.njk' %}
+
+  <body class="bg-gradient-to-b from-slate-900 to-slate-950 text-slate-50 min-h-screen">
+    <header class="static w-screen bg-slate-950/50 backdrop-blur top-0 left-0 text-slate-50 z-40">
+      {% include 'partials/navigation.njk' %}
+    </header>
+
+    <main id="page-content" class="flex flex-col gap-4 items-center max-w-full w-[80rem] mx-auto p-2 text-inherit">
+      {% block content %}{% endblock %}
+    </main>
+
+    {% include 'partials/foot.njk' %}
+  </body>
+</html>

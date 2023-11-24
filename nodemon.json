@@ -1,0 +1,18 @@
+{
+  "watch": ["**"],
+  "ext": "ts,json,njk",
+  "ignore": [
+    "./public/**",
+    "./results/**",
+    "./logs/**",
+    "./alambic/**",
+    "./assets/**",
+    "./dist/**"
+  ],
+  "events": {
+    "restart": "echo \"Server restarting, please wait...\"",
+    "successfully-restarted": "echo \"Server restarted successfully\"",
+    "crash": "echo \"Server crashed, waiting for changes...\""
+  },
+  "exec": "tsup --entry.server-dev src/index.ts --format cjs -- && node dist/server-dev.js"
+}
