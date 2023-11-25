@@ -1,3 +1,5 @@
+import type Model from "./Model";
+
 class QueryBuilder {
   protected static tableName: string = "undefined_table_name";
 
@@ -33,6 +35,28 @@ class QueryBuilder {
 
       instruction.push(instructionParts.join(" "));
     });
+  }
+
+  protected static hasMany<T>(relatedModel: T): any;
+  protected static hasMany<T>(relatedModel: T, foreignKey: string): any;
+  protected static hasMany<T>(
+    relatedModel: T,
+    foreignKey: string,
+    localKey: string
+  ): any;
+  protected static hasMany<T>(
+    relatedModel: T,
+    foreignKey?: string,
+    localKey?: string
+  ) {
+    // TODO: Implement hasMany
+    console.log(relatedModel, foreignKey, localKey);
+  }
+
+  public static with(relationMethod: Function) {
+    relationMethod.bind(this)();
+
+    return this;
   }
 
   public static select(...fields: string[]) {

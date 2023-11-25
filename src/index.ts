@@ -5,7 +5,7 @@ import server from "@/server";
 import { User } from "@/models";
 
 (async () => {
-  const user = await User.where("id", 3).first().please();
+  const user = await User.with(User.posts).where("id", 3).first().please();
 
   console.log(user);
 })();
