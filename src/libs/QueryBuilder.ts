@@ -1,19 +1,27 @@
+import * as databases from "@/database";
+import { database } from "@/config";
 import type Model from "./Model";
 
-class QueryBuilder {
-  protected static tableName: string = "undefined_table_name";
+const defaultInstructions: AlchemiaQueryBuilderInstructions = {
+  select: [],
+  joinSelect: [],
+  where: [],
+  orWhere: [],
+  join: [],
+  on: [],
+  groupBy: [],
+  having: [],
+  orderBy: [],
+  limit: [],
+};
 
-  private static instructions: AlchemiaQueryBuilderInstructions = {
-    select: [],
-    where: [],
-    orWhere: [],
-    join: [],
-    on: [],
-    groupBy: [],
-    having: [],
-    orderBy: [],
-    limit: [],
-  };
+class QueryBuilder {
+  private static database = new (Object.values(databases).find(
+    (Database) => Database.name === database.client
+  ) || databases.SQLite)();
+
+  protected static tableName: string = "undefined_table_name";
+  private static instructions = structuredClone(defaultInstructions);
 
   private static params: any[] = [];
 
@@ -69,75 +77,9 @@ class QueryBuilder {
     instructionParts.push(`"${relatedTableName}"."${foreignKey}"`);
     this.instructions.join.push(instructionParts.join(" "));
 
-    return this;
-  }
-
-  protected static belongsTo<RelatedModel extends Model>(
-    relatedModel: { new (): RelatedModel } & typeof Model
-  ): QueryBuilder;
-  protected static belongsTo<RelatedModel extends Model>(
-    relatedModel: { new (): RelatedModel } & typeof Model,
-    foreignKey: string
-  ): QueryBuilder;
-  protected static belongsTo<RelatedModel extends Model>(
-    relatedModel: { new (): RelatedModel } & typeof Model,
-    foreignKey: string,
-    localKey: string
-  ): QueryBuilder;
-  protected static belongsTo<RelatedModel extends Model>(
-    relatedModel: { new (): RelatedModel } & typeof Model,
-    foreignKey?: string,
-    localKey?: string
-  ) {
-    const relatedTableName = relatedModel.tableName;
-    const localTableName = this.tableName;
-
-    foreignKey = foreignKey || `${localTableName}_id`;
-    localKey = localKey || "id";
-
-    const instructionParts: string[] = [];
-    instructionParts.push("LEFT JOIN");
-    instructionParts.push(`"${relatedTableName}"`);
-    instructionParts.push("ON");
-    instructionParts.push(`"${localTableName}"."${foreignKey}"`);
-    instructionParts.push("=");
-    instructionParts.push(`"${relatedTableName}"."${localKey}"`);
-    this.instructions.join.push(instructionParts.join(" "));
-
-    return this;
-  }
-
-  protected static hasOne<RelatedModel extends Model>(
-    relatedModel: { new (): RelatedModel } & typeof Model
-  ): QueryBuilder;
-  protected static hasOne<RelatedModel extends Model>(
-    relatedModel: { new (): RelatedModel } & typeof Model,
-    foreignKey: string
-  ): QueryBuilder;
-  protected static hasOne<RelatedModel extends Model>(
-    relatedModel: { new (): RelatedModel } & typeof Model,
-    foreignKey: string,
-    localKey: string
-  ): QueryBuilder;
-  protected static hasOne<RelatedModel extends Model>(
-    relatedModel: { new (): RelatedModel } & typeof Model,
-    foreignKey?: string,
-    localKey?: string
-  ) {
-    const relatedTableName = relatedModel.tableName;
-    const localTableName = this.tableName;
-
-    foreignKey = foreignKey || `${localTableName}_id`;
-    localKey = localKey || "id";
-
-    const instructionParts: string[] = [];
-    instructionParts.push("LEFT JOIN");
-    instructionParts.push(`"${relatedTableName}"`);
-    instructionParts.push("ON");
-    instructionParts.push(`"${localTableName}"."${localKey}"`);
-    instructionParts.push("=");
-    instructionParts.push(`"${relatedTableName}"."${foreignKey}"`);
-    this.instructions.join.push(instructionParts.join(" "));
+    this.instructions.joinSelect.push(
+      this.database.jsonRelationSyntax(relatedTableName)
+    );
 
     return this;
   }
@@ -237,7 +179,8 @@ class QueryBuilder {
   }
 
   private static buildSQL(): string {
-    const select = this.instructions.select.join(", ");
+    const select = this.instructions.select;
+    const joinSelect = this.instructions.joinSelect;
     const where = this.instructions.where.join(" AND ");
     const join = this.instructions.join.join(" ");
     const groupBy = this.instructions.groupBy.join(", ");
@@ -245,11 +188,14 @@ class QueryBuilder {
     const orderBy = this.instructions.orderBy.join(", ");
     const limit = this.instructions.limit.join(", ");
 
+    const selects = [];
+
+    if (select.length === 0) selects.push(`"${this.tableName}".*`);
+    if (joinSelect.length > 0) selects.push(...joinSelect);
+
     const sqlParts: string[] = [];
 
-    if (select) sqlParts.push(`SELECT ${select}`);
-    else sqlParts.push(`SELECT *`);
-
+    sqlParts.push(`SELECT ${selects.join(", ")}`);
     sqlParts.push(`FROM "${this.tableName}"`);
 
     if (where) sqlParts.push(`WHERE ${where}`);
@@ -267,7 +213,11 @@ class QueryBuilder {
     const sql = this.buildSQL();
     // TODO: Send SQL query to database
     console.log("TODO: Send SQL query to database");
-    return this.toSQL();
+    const sqlDetails = this.toSQL();
+
+    this.instructions = structuredClone(defaultInstructions);
+
+    return sqlDetails;
   }
 
   public static toSQL(): AlchemiaQueryBuilderSQL {

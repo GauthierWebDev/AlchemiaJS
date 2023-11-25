@@ -40,6 +40,7 @@ type AlchemiaController = {
 
 type AlchemiaQueryBuilderInstructions = {
   select: string[];
+  joinSelect: string[];
   where: string[];
   orWhere: string[];
   join: string[];
