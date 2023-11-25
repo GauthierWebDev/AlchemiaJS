@@ -54,3 +54,8 @@ type AlchemiaQueryBuilderInstruction =
   AlchemiaQueryBuilderInstructions[keyof AlchemiaQueryBuilderInstructions];
 
 type AlchemiaQueryBuilderField = string | number | null | string[] | number[];
+
+type AlchemiaQueryBuilderSQL = {
+  query: string;
+  params: any[];
+};

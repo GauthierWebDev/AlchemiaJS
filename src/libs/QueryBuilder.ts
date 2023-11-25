@@ -37,23 +37,112 @@ class QueryBuilder {
     });
   }
 
-  protected static hasMany<T>(relatedModel: T): any;
-  protected static hasMany<T>(relatedModel: T, foreignKey: string): any;
-  protected static hasMany<T>(
-    relatedModel: T,
+  protected static hasMany<RelatedModel extends Model>(
+    relatedModel: { new (): RelatedModel } & typeof Model
+  ): QueryBuilder;
+  protected static hasMany<RelatedModel extends Model>(
+    relatedModel: { new (): RelatedModel } & typeof Model,
+    foreignKey: string
+  ): QueryBuilder;
+  protected static hasMany<RelatedModel extends Model>(
+    relatedModel: { new (): RelatedModel } & typeof Model,
     foreignKey: string,
     localKey: string
-  ): any;
-  protected static hasMany<T>(
-    relatedModel: T,
+  ): QueryBuilder;
+  protected static hasMany<RelatedModel extends Model>(
+    relatedModel: { new (): RelatedModel } & typeof Model,
     foreignKey?: string,
     localKey?: string
   ) {
-    // TODO: Implement hasMany
-    console.log(relatedModel, foreignKey, localKey);
+    const relatedTableName = relatedModel.tableName;
+    const localTableName = this.tableName;
+
+    foreignKey = foreignKey || `${localTableName}_id`;
+    localKey = localKey || "id";
+
+    const instructionParts: string[] = [];
+    instructionParts.push("LEFT JOIN");
+    instructionParts.push(`"${relatedTableName}"`);
+    instructionParts.push("ON");
+    instructionParts.push(`"${localTableName}"."${localKey}"`);
+    instructionParts.push("=");
+    instructionParts.push(`"${relatedTableName}"."${foreignKey}"`);
+    this.instructions.join.push(instructionParts.join(" "));
+
+    return this;
   }
 
-  public static with(relationMethod: Function) {
+  protected static belongsTo<RelatedModel extends Model>(
+    relatedModel: { new (): RelatedModel } & typeof Model
+  ): QueryBuilder;
+  protected static belongsTo<RelatedModel extends Model>(
+    relatedModel: { new (): RelatedModel } & typeof Model,
+    foreignKey: string
+  ): QueryBuilder;
+  protected static belongsTo<RelatedModel extends Model>(
+    relatedModel: { new (): RelatedModel } & typeof Model,
+    foreignKey: string,
+    localKey: string
+  ): QueryBuilder;
+  protected static belongsTo<RelatedModel extends Model>(
+    relatedModel: { new (): RelatedModel } & typeof Model,
+    foreignKey?: string,
+    localKey?: string
+  ) {
+    const relatedTableName = relatedModel.tableName;
+    const localTableName = this.tableName;
+
+    foreignKey = foreignKey || `${localTableName}_id`;
+    localKey = localKey || "id";
+
+    const instructionParts: string[] = [];
+    instructionParts.push("LEFT JOIN");
+    instructionParts.push(`"${relatedTableName}"`);
+    instructionParts.push("ON");
+    instructionParts.push(`"${localTableName}"."${foreignKey}"`);
+    instructionParts.push("=");
+    instructionParts.push(`"${relatedTableName}"."${localKey}"`);
+    this.instructions.join.push(instructionParts.join(" "));
+
+    return this;
+  }
+
+  protected static hasOne<RelatedModel extends Model>(
+    relatedModel: { new (): RelatedModel } & typeof Model
+  ): QueryBuilder;
+  protected static hasOne<RelatedModel extends Model>(
+    relatedModel: { new (): RelatedModel } & typeof Model,
+    foreignKey: string
+  ): QueryBuilder;
+  protected static hasOne<RelatedModel extends Model>(
+    relatedModel: { new (): RelatedModel } & typeof Model,
+    foreignKey: string,
+    localKey: string
+  ): QueryBuilder;
+  protected static hasOne<RelatedModel extends Model>(
+    relatedModel: { new (): RelatedModel } & typeof Model,
+    foreignKey?: string,
+    localKey?: string
+  ) {
+    const relatedTableName = relatedModel.tableName;
+    const localTableName = this.tableName;
+
+    foreignKey = foreignKey || `${localTableName}_id`;
+    localKey = localKey || "id";
+
+    const instructionParts: string[] = [];
+    instructionParts.push("LEFT JOIN");
+    instructionParts.push(`"${relatedTableName}"`);
+    instructionParts.push("ON");
+    instructionParts.push(`"${localTableName}"."${localKey}"`);
+    instructionParts.push("=");
+    instructionParts.push(`"${relatedTableName}"."${foreignKey}"`);
+    this.instructions.join.push(instructionParts.join(" "));
+
+    return this;
+  }
+
+  public static with(relationMethod: Function): typeof QueryBuilder {
     relationMethod.bind(this)();
 
     return this;
@@ -92,14 +181,65 @@ class QueryBuilder {
     return this;
   }
 
-  public static first() {
+  public static orWhere(field: string, value: any): typeof QueryBuilder;
+  public static orWhere(
+    field: string,
+    operator: string,
+    value: any
+  ): typeof QueryBuilder;
+  public static orWhere(...args: any[]): typeof QueryBuilder {
+    let field: string = "";
+    let operator: string = "";
+    let value: any = "";
+
+    if (args.length === 2) {
+      [field, value] = args;
+      operator = "=";
+    } else if (args.length === 3) {
+      [field, operator, value] = args;
+    }
+
+    const instructionParts: string[] = [];
+    instructionParts.push(this.addParam(field));
+    instructionParts.push(operator);
+    instructionParts.push(this.addParam(value));
+
+    this.instructions.orWhere.push(instructionParts.join(" "));
+
+    return this;
+  }
+
+  public static orderBy(field: string): typeof QueryBuilder;
+  public static orderBy(field: string, direction: string): typeof QueryBuilder;
+  public static orderBy(...args: any[]): typeof QueryBuilder {
+    let field: string = "";
+    let direction: string = "";
+
+    if (args.length === 1) {
+      [field] = args;
+      direction = "ASC";
+    } else if (args.length === 2) {
+      [field, direction] = args;
+    }
+
+    const instructionParts: string[] = [];
+    instructionParts.push(this.addParam(field));
+    instructionParts.push(direction);
+
+    this.instructions.orderBy.push(instructionParts.join(" "));
+
+    return this;
+  }
+
+  public static first(): typeof QueryBuilder {
     this.instructions.limit.push("1");
     return this;
   }
 
-  private static buildSQL() {
+  private static buildSQL(): string {
     const select = this.instructions.select.join(", ");
     const where = this.instructions.where.join(" AND ");
+    const join = this.instructions.join.join(" ");
     const groupBy = this.instructions.groupBy.join(", ");
     const having = this.instructions.having.join(", ");
     const orderBy = this.instructions.orderBy.join(", ");
@@ -113,6 +253,7 @@ class QueryBuilder {
     sqlParts.push(`FROM "${this.tableName}"`);
 
     if (where) sqlParts.push(`WHERE ${where}`);
+    if (join) sqlParts.push(join);
     if (groupBy) sqlParts.push(`GROUP BY ${groupBy}`);
     if (having) sqlParts.push(`HAVING ${having}`);
     if (orderBy) sqlParts.push(`ORDER BY ${orderBy}`);
@@ -121,14 +262,15 @@ class QueryBuilder {
     return sqlParts.join(" ");
   }
 
-  public static async please() {
+  // TODO: Add types
+  public static async please(): Promise<any> {
     const sql = this.buildSQL();
     // TODO: Send SQL query to database
     console.log("TODO: Send SQL query to database");
     return this.toSQL();
   }
 
-  public static toSQL() {
+  public static toSQL(): AlchemiaQueryBuilderSQL {
     const sql = this.buildSQL();
     return {
       query: sql,
