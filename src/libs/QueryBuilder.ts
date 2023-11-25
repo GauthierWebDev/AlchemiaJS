@@ -15,6 +15,11 @@ class QueryBuilder {
 
   private static params: any[] = [];
 
+  private static addParam(param: any) {
+    this.params.push(param);
+    return "$" + this.params.length.toString();
+  }
+
   private static addFields(
     instruction: AlchemiaQueryBuilderInstruction,
     fields: AlchemiaQueryBuilderField[],
@@ -23,8 +28,7 @@ class QueryBuilder {
     fields.forEach((field) => {
       const instructionParts: string[] = [];
 
-      this.params.push(field);
-      instructionParts.push("$" + this.params.length.toString());
+      instructionParts.push(this.addParam(field));
       if (terminator) instructionParts.push(terminator);
 
       instruction.push(instructionParts.join(" "));
@@ -36,12 +40,31 @@ class QueryBuilder {
     return this;
   }
 
-  // public static where(field: string, value: any) {}
-  public static where(field: string, operator: string, value: any) {
-    this.params.push(value);
-    this.instructions.where.push(
-      `${field} ${operator} $${this.params.length.toString()}`
-    );
+  public static where(field: string, value: any): typeof QueryBuilder;
+  public static where(
+    field: string,
+    operator: string,
+    value: any
+  ): typeof QueryBuilder;
+  public static where(...args: any[]): typeof QueryBuilder {
+    let field: string = "";
+    let operator: string = "";
+    let value: any = "";
+
+    if (args.length === 2) {
+      [field, value] = args;
+      operator = "=";
+    } else if (args.length === 3) {
+      [field, operator, value] = args;
+    }
+
+    const instructionParts: string[] = [];
+    instructionParts.push(this.addParam(field));
+    instructionParts.push(operator);
+    instructionParts.push(this.addParam(value));
+
+    this.instructions.where.push(instructionParts.join(" "));
+
     return this;
   }
 
@@ -78,7 +101,7 @@ class QueryBuilder {
     const sql = this.buildSQL();
     // TODO: Send SQL query to database
     console.log("TODO: Send SQL query to database");
-    return sql;
+    return this.toSQL();
   }
 
   public static toSQL() {
