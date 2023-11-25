@@ -1,4 +1,6 @@
 class QueryBuilder {
+  protected static tableName: string = "undefined_table_name";
+
   private static instructions: AlchemiaQueryBuilderInstructions = {
     select: [],
     where: [],
@@ -13,7 +15,7 @@ class QueryBuilder {
 
   private static params: any[] = [];
 
-  static addFields(
+  private static addFields(
     instruction: AlchemiaQueryBuilderInstruction,
     fields: AlchemiaQueryBuilderField[],
     terminator?: string
@@ -29,12 +31,24 @@ class QueryBuilder {
     });
   }
 
-  static select(...fields: string[]) {
+  public static select(...fields: string[]) {
     this.addFields(this.instructions.select, fields);
     return this;
   }
 
-  static where(...fields: string[]) {}
+  // public static where(field: string, value: any) {}
+  public static where(field: string, operator: string, value: any) {
+    this.params.push(value);
+    this.instructions.where.push(
+      `${field} ${operator} $${this.params.length.toString()}`
+    );
+    return this;
+  }
+
+  public static first() {
+    this.instructions.limit.push("1");
+    return this;
+  }
 
   private static buildSQL() {
     const select = this.instructions.select.join(", ");
@@ -49,7 +63,7 @@ class QueryBuilder {
     if (select) sqlParts.push(`SELECT ${select}`);
     else sqlParts.push(`SELECT *`);
 
-    sqlParts.push(`FROM "temp_table"`);
+    sqlParts.push(`FROM "${this.tableName}"`);
 
     if (where) sqlParts.push(`WHERE ${where}`);
     if (groupBy) sqlParts.push(`GROUP BY ${groupBy}`);
@@ -60,12 +74,14 @@ class QueryBuilder {
     return sqlParts.join(" ");
   }
 
-  static async please() {
+  public static async please() {
     const sql = this.buildSQL();
     // TODO: Send SQL query to database
+    console.log("TODO: Send SQL query to database");
+    return sql;
   }
 
-  static toSQL() {
+  public static toSQL() {
     const sql = this.buildSQL();
     return {
       query: sql,
