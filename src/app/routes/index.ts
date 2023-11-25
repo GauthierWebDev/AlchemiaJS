@@ -1,7 +1,7 @@
 import { buildRoutesFromController } from "@/functions";
-import * as middlewaresRegistry from "@/middlewares";
-import * as controllers from "@/controllers";
-import { poweredBy } from "@/middlewares";
+import * as middlewaresRegistry from "@/app/middlewares";
+import * as controllers from "@/app/controllers";
+import { poweredBy } from "@/app/middlewares";
 import { Logger } from "@/utils";
 
 import type {

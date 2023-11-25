@@ -2,7 +2,7 @@ import { settings } from "@/config";
 import { Logger } from "@/utils";
 import server from "@/server";
 
-import { User } from "@/models";
+import { User } from "@/app/models";
 
 (async () => {
   const user = await User.with(User.posts).where("id", 3).first().please();

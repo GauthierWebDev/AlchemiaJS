@@ -1,4 +1,4 @@
-import * as controllers from "@/controllers";
+import * as controllers from "@/app/controllers";
 
 const findControllerMethodByPath = (
   controllerName: string,
