@@ -2,7 +2,7 @@ import { database } from "@/config";
 import sqlite3 from "sqlite3";
 
 class SQLite {
-  public name: string = "sqlite3";
+  public static dbname: string = "sqlite3";
   private db: sqlite3.Database;
   private driver = sqlite3;
 

@@ -1,5 +1,4 @@
-import * as databases from "@/database";
-import { database } from "@/config";
+import database from "@/database";
 import type Model from "./Model";
 
 const defaultInstructions: AlchemiaQueryBuilderInstructions = {
@@ -16,9 +15,7 @@ const defaultInstructions: AlchemiaQueryBuilderInstructions = {
 };
 
 class QueryBuilder {
-  private static database = new (Object.values(databases).find(
-    (Database) => Database.name === database.client
-  ) || databases.SQLite)();
+  private static database = database;
 
   protected static tableName: string = "undefined_table_name";
   private static instructions = structuredClone(defaultInstructions);
