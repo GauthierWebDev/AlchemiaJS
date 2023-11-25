@@ -1,6 +1,6 @@
 import { database } from "@/config";
+import SQLite from "@/libs/SQLite";
 import { Logger } from "@/utils";
-import SQLite from "./SQLite";
 
 const databases = [SQLite];
 

@@ -208,13 +208,12 @@ class QueryBuilder {
   // TODO: Add types
   public static async please(): Promise<any> {
     const sql = this.buildSQL();
-    // TODO: Send SQL query to database
-    console.log("TODO: Send SQL query to database");
-    const sqlDetails = this.toSQL();
+    const params = this.params;
 
+    const rows = await this.database.query(sql, params);
     this.instructions = structuredClone(defaultInstructions);
 
-    return sqlDetails;
+    return rows;
   }
 
   public static toSQL(): AlchemiaQueryBuilderSQL {
