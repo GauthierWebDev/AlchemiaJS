@@ -17,7 +17,10 @@ export type AlchemiaMultiLingualDecoratorValues = {
 const multiLingual = (...langs: AvailableLanguageCode[]) => {
   return (target: any, key: string, __descriptor: PropertyDescriptor) => {
     if (!target.constructor._langs) target.constructor._langs = {};
-    target.constructor._langs[key] = langs.length ? langs : allLangs;
+    if (!langs.length || langs.includes("*")) langs = allLangs;
+
+    langs = langs.filter((lang) => allLangs.includes(lang));
+    target.constructor._langs[key] = langs;
   };
 };
 
