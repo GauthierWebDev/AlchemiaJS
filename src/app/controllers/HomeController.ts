@@ -2,7 +2,7 @@ import { multiLingual, method, route } from "@/decorators";
 import Controller from "@/libs/Controller";
 
 class HomeController extends Controller {
-  @method("get")
+  @method("all")
   @route("/home")
   @multiLingual("en", "es")
   public async index() {

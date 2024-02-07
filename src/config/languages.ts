@@ -12,7 +12,4 @@ const languages = {
   ],
 };
 
-export type AvailableLanguageCode =
-  (typeof languages.AVAILABLE)[number]["code"];
-
 export default languages;

@@ -1,23 +1,29 @@
-import type { AlchemiaMultiLingualDecoratorValues } from "@/decorators/multiLingual";
-import type { AvailableLanguageCode } from "@/config/languages";
-import type { AlchemiaMethod } from "@/decorators/method";
+import type {
+  AlchemiaDecoratorValue,
+  AlchemiaHttpMethod,
+  AlchemiaAvailableLanguageCode,
+} from "@/types";
 import { buildLangRoutePrefix } from "@/functions";
 import { Logger } from "@/utils";
+
+type AlchemiaMiddlewares = {
+  [key: string]: string[];
+};
 
 type AlchemiaRouteHistory = {
   middlewares: string[];
   classMethod: string;
-  httpMethod: AlchemiaMethod;
+  httpMethod: AlchemiaHttpMethod;
   route: string;
-  langs: AvailableLanguageCode[];
+  langs: AlchemiaAvailableLanguageCode[];
 };
 
 const buildRoutesFromController = (
   Controller: any,
   routes: AlchemiaRoutes,
-  httpMethods: AlchemiaMethods,
+  httpMethods: AlchemiaDecoratorValue<AlchemiaHttpMethod>,
   middlewares: AlchemiaMiddlewares,
-  langs: AlchemiaMultiLingualDecoratorValues
+  langs: AlchemiaDecoratorValue<AlchemiaAvailableLanguageCode[]>
 ) => {
   const addedRoutes: AlchemiaRouteHistory[] = [];
   const errorRoutes: AlchemiaRouteHistory[] = [];
@@ -74,9 +80,8 @@ const buildRoutesFromController = (
     Logger.debug(
       `${errorRoutes.length} route(s) failed to be added for the controller "${Controller.name}":`,
       ...errorRoutes.map((route) => {
-        return `\n -> [${route.httpMethod.toUpperCase()}] ${route.route} => ${
-          Controller.name
-        }.${route.classMethod}`;
+        const httpMethod = route.httpMethod.toUpperCase();
+        return `\n -> [${httpMethod}] ${route.route} => ${Controller.name}.${route.classMethod}`;
       })
     );
   }

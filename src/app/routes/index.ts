@@ -1,3 +1,4 @@
+import type { AlchemiaHttpMethod } from "@/types";
 import { buildRoutesFromController } from "@/functions";
 import * as middlewaresRegistry from "@/app/middlewares";
 import * as controllers from "@/app/controllers";
