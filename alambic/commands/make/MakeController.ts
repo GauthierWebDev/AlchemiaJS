@@ -8,7 +8,7 @@ class MakeControllerSubCommand extends SubCommand {
   }
 
   private doesControllerExist(controllerName: string): boolean {
-    const controllerPath = `src/controllers/${controllerName}.ts`;
+    const controllerPath = `src/app/controllers/${controllerName}.ts`;
     return fs.existsSync(controllerPath);
   }
 
@@ -27,7 +27,7 @@ class MakeControllerSubCommand extends SubCommand {
   }
 
   private writeController(controllerName: string): void {
-    const controllerPath = `src/controllers/${controllerName}.ts`;
+    const controllerPath = `src/app/controllers/${controllerName}.ts`;
     const controllerTemplate = this.replaceTemplateVariables(controllerName);
     fs.writeFileSync(controllerPath, controllerTemplate);
   }
@@ -52,7 +52,7 @@ class MakeControllerSubCommand extends SubCommand {
   }
 
   private appendExports(controllerName: string): void {
-    const controllersPath = "src/controllers/index.ts";
+    const controllersPath = "src/app/controllers/index.ts";
     const controllerExport = `export { default as ${controllerName} } from "./${controllerName}";\n`;
 
     fs.appendFileSync(controllersPath, controllerExport);

@@ -5,6 +5,10 @@ const allLangs: AvailableLanguageCode[] = languages.AVAILABLE.map(
   (lang) => lang.code
 );
 
+export type AlchemiaMultiLingualDecoratorValues = {
+  [key: string]: AvailableLanguageCode[];
+};
+
 /**
  * Decorator function for setting the covered languages for a route.
  * @param langs - The languages covered for the route.

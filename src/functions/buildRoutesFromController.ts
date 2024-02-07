@@ -1,3 +1,4 @@
+import type { AlchemiaMultiLingualDecoratorValues } from "@/decorators/multiLingual";
 import type { AvailableLanguageCode } from "@/config/languages";
 import { buildLangRoutePrefix } from "@/functions";
 import { Logger } from "@/utils";
@@ -15,7 +16,7 @@ const buildRoutesFromController = (
   routes: AlchemiaRoutes,
   httpMethods: AlchemiaMethods,
   middlewares: AlchemiaMiddlewares,
-  langs: AvailableLanguageCode[]
+  langs: AlchemiaMultiLingualDecoratorValues
 ) => {
   const addedRoutes: AlchemiaRouteHistory[] = [];
   const errorRoutes: AlchemiaRouteHistory[] = [];
@@ -31,18 +32,16 @@ const buildRoutesFromController = (
         middlewaresToApply.push(...middlewares[key]);
       }
 
-      if (!route.startsWith("/api")) {
-        route = `/${buildLangRoutePrefix(langs)}/${route}`
-          .replace(/\/+/g, "/")
-          .replace(/\/$/, "");
-      }
+      route = `/${buildLangRoutePrefix(key, langs)}/${route}`
+        .replace(/\/+/g, "/")
+        .replace(/\/$/, "");
 
       addedRoutes.push({
         httpMethod: httpMethods[key],
         classMethod: key,
         middlewares: middlewaresToApply,
         route,
-        langs,
+        langs: langs[key],
       });
     } catch (err: any) {
       Logger.setTitle(`💀 Error building route "${route}"`, "error")
@@ -54,7 +53,7 @@ const buildRoutesFromController = (
         httpMethod: httpMethods[key],
         classMethod: key,
         route,
-        langs,
+        langs: langs[key],
       });
     }
   });
