@@ -1,9 +1,9 @@
-import fastifyCaching from "@fastify/caching";
 import * as middlewares from "@/app/middlewares";
+import fastifyCaching from "@fastify/caching";
 import htmlMinifier from "html-minifier";
 import * as filters from "@/filters";
-import nunjucks from "nunjucks";
 import routes from "@/app/routes";
+import nunjucks from "nunjucks";
 import Fastify from "fastify";
 import path from "path";
 

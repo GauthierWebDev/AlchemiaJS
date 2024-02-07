@@ -5,7 +5,9 @@ import server from "@/server";
 import { User } from "@/app/models";
 
 (async () => {
-  const user = await User.first().please();
+  const user = await User.startQuery().with(User.posts).first().please();
+
+  const columns = Reflect.getOwnPropertyDescriptor(User, "_columns");
 
   console.log(user);
 })();

@@ -14,7 +14,6 @@
     "build:js": "browserify -p [ tsify --project tsconfig.json ] ./assets/ts/index.ts -p [ tinyify ] -o ./public/js/app.min.js",
     "build:css": "tailwindcss -i ./assets/css/index.css -o ./public/css/styles.min.css --minify",
     "serve": "node dist/server-prod.js",
-    "db:seed": "ts-node ./src/database/seeding",
     "alambic": "ts-node ./alambic"
   },
   "keywords": [],
@@ -27,6 +26,7 @@
     "browserify": "^17.0.0",
     "concurrently": "^8.2.2",
     "nodemon": "^3.0.1",
+    "prisma": "^5.9.1",
     "tinyify": "^4.0.0",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
@@ -46,7 +46,6 @@
     "fastify-minify": "^1.2.0",
     "html-minifier": "^4.0.0",
     "nunjucks": "^3.2.4",
-    "sqlite3": "^5.1.6",
     "tailwindcss": "^3.3.5"
   }
 }
