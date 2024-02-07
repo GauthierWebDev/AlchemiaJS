@@ -1,6 +1,5 @@
+import type { AvailableLanguageCode } from "@/config/languages";
 import { languages } from "@/config";
-
-type AvailableLanguageCode = (typeof languages.AVAILABLE)[number]["code"];
 
 const allLangs: AvailableLanguageCode[] = languages.AVAILABLE.map(
   (lang) => lang.code
