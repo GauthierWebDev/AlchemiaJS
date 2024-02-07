@@ -12,8 +12,6 @@ type AlchemiaDictionary = {
   texts: AlchemiaDictionaryTexts;
 };
 
-type AlchemiaMethod = "get" | "post" | "put" | "delete";
-
 type AlchemiaMethods = {
   [key: string]: AlchemiaMethod;
 };

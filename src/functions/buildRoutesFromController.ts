@@ -1,5 +1,6 @@
 import type { AlchemiaMultiLingualDecoratorValues } from "@/decorators/multiLingual";
 import type { AvailableLanguageCode } from "@/config/languages";
+import type { AlchemiaMethod } from "@/decorators/method";
 import { buildLangRoutePrefix } from "@/functions";
 import { Logger } from "@/utils";
 

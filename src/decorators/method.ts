@@ -1,3 +1,5 @@
+export type AlchemiaMethod = "get" | "post" | "put" | "patch" | "delete";
+
 /**
  * Decorator that assigns an HTTP method to a class method.
  * @param httpMethod The HTTP method to assign.
