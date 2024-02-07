@@ -15,6 +15,7 @@ const routes: FastifyPluginCallback = (fastify, _, done) => {
     const middlewares: AlchemiaMiddlewares = Controller._middlewares;
     const httpMethods: AlchemiaMethods = Controller._methods;
     const routes: AlchemiaRoutes = Controller._routes;
+    const langs: string[] = Controller._langs;
 
     if (!httpMethods || !routes) return;
     Logger.debug(`Building routes for "${Controller.name}"`);
@@ -23,7 +24,8 @@ const routes: FastifyPluginCallback = (fastify, _, done) => {
       Controller,
       routes,
       httpMethods,
-      middlewares
+      middlewares,
+      langs
     );
 
     controllerRoutes.forEach(async (route) => {

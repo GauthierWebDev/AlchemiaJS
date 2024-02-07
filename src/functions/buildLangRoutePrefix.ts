@@ -1,8 +1,8 @@
-import { languages } from "@/config";
+import type { AvailableLanguageCode } from "@/config/languages";
 
-const buildLangRoutePrefix = () => {
-  const codes = languages.AVAILABLE.map((language) => language.code);
-  return `/:lang(${codes.join("|")})`;
+const buildLangRoutePrefix = (langs: AvailableLanguageCode[]) => {
+  if (!langs.length) return "";
+  return `/:lang(${langs.join("|")})`;
 };
 
 export default buildLangRoutePrefix;

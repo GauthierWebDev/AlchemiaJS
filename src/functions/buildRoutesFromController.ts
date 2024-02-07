@@ -1,3 +1,4 @@
+import type { AvailableLanguageCode } from "@/config/languages";
 import { buildLangRoutePrefix } from "@/functions";
 import { Logger } from "@/utils";
 
@@ -6,13 +7,15 @@ type AlchemiaRouteHistory = {
   classMethod: string;
   httpMethod: AlchemiaMethod;
   route: string;
+  langs: AvailableLanguageCode[];
 };
 
 const buildRoutesFromController = (
   Controller: any,
   routes: AlchemiaRoutes,
   httpMethods: AlchemiaMethods,
-  middlewares: AlchemiaMiddlewares
+  middlewares: AlchemiaMiddlewares,
+  langs: AvailableLanguageCode[]
 ) => {
   const addedRoutes: AlchemiaRouteHistory[] = [];
   const errorRoutes: AlchemiaRouteHistory[] = [];
@@ -29,7 +32,7 @@ const buildRoutesFromController = (
       }
 
       if (!route.startsWith("/api")) {
-        route = `/${buildLangRoutePrefix()}/${route}`
+        route = `/${buildLangRoutePrefix(langs)}/${route}`
           .replace(/\/+/g, "/")
           .replace(/\/$/, "");
       }
@@ -39,6 +42,7 @@ const buildRoutesFromController = (
         classMethod: key,
         middlewares: middlewaresToApply,
         route,
+        langs,
       });
     } catch (err: any) {
       Logger.setTitle(`💀 Error building route "${route}"`, "error")
@@ -50,6 +54,7 @@ const buildRoutesFromController = (
         httpMethod: httpMethods[key],
         classMethod: key,
         route,
+        langs,
       });
     }
   });
