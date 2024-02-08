@@ -4,41 +4,41 @@ import { getRoutes } from "@/app/routes";
 
 const notFoundHandler = (
   instance: FastifyInstance,
-  options: any,
+  _options: any,
   done: (err?: Error) => void
 ) => {
   instance.setNotFoundHandler((request, reply) => {
     const currentHttpMethod = request.raw.method?.toLowerCase() || "get";
     if (currentHttpMethod !== "get") {
-      const controller = new ErrorController(request, reply);
-      controller.notFound();
-      return;
+      return new ErrorController(request, reply).notFound();
     }
 
     const currentPath = request.raw.url;
-    // const routes = getRoutes();
+    const routes = getRoutes();
 
-    // const matchingRoute = routes.find((route) => {
-    //   return (
-    //     route.route.replace(/\/:lang\([\w|\|]+\)/, "") === currentPath &&
-    //     (route.httpMethod === currentHttpMethod || route.httpMethod === "all")
-    //   );
-    // });
+    const matchingRoute = routes.find((route) => {
+      return (
+        route.route.replace(/\/:lang\([\w|\|]+\)/, "") === currentPath &&
+        (route.httpMethod === currentHttpMethod || route.httpMethod === "all")
+      );
+    });
 
-    console.log(request.raw.url);
+    if (!matchingRoute) {
+      return new ErrorController(request, reply).notFound();
+    }
 
-    // if (matchingRoute) {
-    //   let redirectPath = matchingRoute.route;
+    let redirectPath = matchingRoute.route;
 
-    //   if (matchingRoute.route.startsWith("/:lang")) {
-    //     console.log(matchingRoute);
-    //     redirectPath = `/${matchingRoute.lang}${matchingRoute.route}`;
-    //   }
+    if (matchingRoute.route.startsWith("/:lang")) {
+      const routeWithoutLang = matchingRoute.route.replace(
+        /\/:lang\([\w|\|]+\)/,
+        ""
+      );
+      const firstLanguage = matchingRoute.langs[0];
+      redirectPath = `/${firstLanguage}${routeWithoutLang}`;
+    }
 
-    //   // return reply.redirect(redirectPath);
-    // }
-
-    // new ErrorController(request, reply).notFound();
+    return reply.redirect(redirectPath);
   });
 
   done();

@@ -25,10 +25,7 @@ const langMiddleware = (
     availableLangs.map((lang) => lang.code)
   );
 
-  console.log(userLang);
-
   const langToUse = userLang ? userLang : fallbackLang;
-
   res.redirect(`/${langToUse}${req.url}`);
 };
 
