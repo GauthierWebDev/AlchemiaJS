@@ -1,5 +1,5 @@
 import { autoInstantiate } from "@/decorators";
-import { Controller } from "@/libs";
+import Controller from "@/libs/Controller";
 
 class ErrorController extends Controller {
   @autoInstantiate

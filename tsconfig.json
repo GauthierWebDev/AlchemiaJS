@@ -11,8 +11,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true,
-    "types": ["./src/alchemia.d.ts"]
+    "skipLibCheck": true
   },
   "ts-node": {
     "require": ["tsconfig-paths/register"],

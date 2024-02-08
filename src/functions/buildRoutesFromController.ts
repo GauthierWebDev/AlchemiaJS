@@ -1,18 +1,30 @@
+import type {
+  AlchemiaAvailableLanguageCode,
+  AlchemiaDecoratorValue,
+  AlchemiaHttpMethod,
+  AlchemiaRoute,
+} from "@/types";
 import { buildLangRoutePrefix } from "@/functions";
 import { Logger } from "@/utils";
+
+type AlchemiaMiddlewares = {
+  [key: string]: string[];
+};
 
 type AlchemiaRouteHistory = {
   middlewares: string[];
   classMethod: string;
-  httpMethod: AlchemiaMethod;
+  httpMethod: AlchemiaHttpMethod;
   route: string;
+  langs: AlchemiaAvailableLanguageCode[];
 };
 
 const buildRoutesFromController = (
   Controller: any,
-  routes: AlchemiaRoutes,
-  httpMethods: AlchemiaMethods,
-  middlewares: AlchemiaMiddlewares
+  routes: AlchemiaDecoratorValue<AlchemiaRoute>,
+  httpMethods: AlchemiaDecoratorValue<AlchemiaHttpMethod>,
+  middlewares: AlchemiaMiddlewares,
+  langs: AlchemiaDecoratorValue<AlchemiaAvailableLanguageCode[]>
 ) => {
   const addedRoutes: AlchemiaRouteHistory[] = [];
   const errorRoutes: AlchemiaRouteHistory[] = [];
@@ -28,17 +40,16 @@ const buildRoutesFromController = (
         middlewaresToApply.push(...middlewares[key]);
       }
 
-      if (!route.startsWith("/api")) {
-        route = `/${buildLangRoutePrefix()}/${route}`
-          .replace(/\/+/g, "/")
-          .replace(/\/$/, "");
-      }
+      route = `/${buildLangRoutePrefix(key, langs)}/${route}`
+        .replace(/\/+/g, "/")
+        .replace(/\/$/, "");
 
       addedRoutes.push({
         httpMethod: httpMethods[key],
         classMethod: key,
         middlewares: middlewaresToApply,
         route,
+        langs: langs[key],
       });
     } catch (err: any) {
       Logger.setTitle(`💀 Error building route "${route}"`, "error")
@@ -50,6 +61,7 @@ const buildRoutesFromController = (
         httpMethod: httpMethods[key],
         classMethod: key,
         route,
+        langs: langs[key],
       });
     }
   });
@@ -69,9 +81,8 @@ const buildRoutesFromController = (
     Logger.debug(
       `${errorRoutes.length} route(s) failed to be added for the controller "${Controller.name}":`,
       ...errorRoutes.map((route) => {
-        return `\n -> [${route.httpMethod.toUpperCase()}] ${route.route} => ${
-          Controller.name
-        }.${route.classMethod}`;
+        const httpMethod = route.httpMethod.toUpperCase();
+        return `\n -> [${httpMethod}] ${route.route} => ${Controller.name}.${route.classMethod}`;
       })
     );
   }
