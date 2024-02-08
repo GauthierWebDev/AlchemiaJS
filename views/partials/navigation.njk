@@ -5,21 +5,23 @@
     </a>
   </div>
 
-  <select
-    class="bg-transparent border-none cursor-pointer focus:outline-none text-lg py-2"
-    id="language-select"
-  >
-    {% for language in availableLanguages %}
-      <option
-        value="{{ language.code }}"
-        class="text-slate-950"
-        {% if language.code == lang %}
-          selected
-        {% endif %}
-      >
-        {{ language.flag }}
-        {{ language.name }}
-      </option>
-    {% endfor %}
-  </select>
+  {% if availableLanguages and availableLanguages.length >= 2 %}
+    <select
+      class="bg-transparent border-none cursor-pointer focus:outline-none text-lg py-2"
+      id="language-select"
+    >
+      {% for language in availableLanguages %}
+        <option
+          value="{{ language.code }}"
+          class="text-slate-950"
+          {% if language.code == lang %}
+            selected
+          {% endif %}
+        >
+          {{ language.flag }}
+          {{ language.name }}
+        </option>
+      {% endfor %}
+    </select>
+  {% endif %}
 </nav>
