@@ -1,3 +1,1 @@
-export type AlchemiaRoutes = {
-  [key: string]: string;
-};
+export type AlchemiaRoute = string;

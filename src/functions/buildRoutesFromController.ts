@@ -1,7 +1,8 @@
 import type {
+  AlchemiaAvailableLanguageCode,
   AlchemiaDecoratorValue,
   AlchemiaHttpMethod,
-  AlchemiaAvailableLanguageCode,
+  AlchemiaRoute,
 } from "@/types";
 import { buildLangRoutePrefix } from "@/functions";
 import { Logger } from "@/utils";
@@ -20,7 +21,7 @@ type AlchemiaRouteHistory = {
 
 const buildRoutesFromController = (
   Controller: any,
-  routes: AlchemiaRoutes,
+  routes: AlchemiaDecoratorValue<AlchemiaRoute>,
   httpMethods: AlchemiaDecoratorValue<AlchemiaHttpMethod>,
   middlewares: AlchemiaMiddlewares,
   langs: AlchemiaDecoratorValue<AlchemiaAvailableLanguageCode[]>

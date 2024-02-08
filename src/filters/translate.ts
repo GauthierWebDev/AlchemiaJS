@@ -1,3 +1,4 @@
+import type { AlchemiaDictionary, AlchemiaDictionaryTexts } from "@/types";
 import { languages } from "@/config";
 import * as locales from "@/locales";
 
