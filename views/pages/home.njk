@@ -1,21 +1,21 @@
 {% extends "layouts/base.njk" %}
 
 {% block title %}
-  {{ "TITLES.$2" | translate }} | {{ super() }}
+  {{ "TITLES.HOME" | translate }} | {{ super() }}
 {% endblock %}
 
 {% block metadescription %}
-  {{ "TEXTS.$2.DESCRIPTION" | translate }}
+  {{ "TEXTS.HOME.DESCRIPTION" | translate }}
 {% endblock %}
 
 {% block content %}
   <section class="flex flex-col gap-2 w-full">
     <h1 class="text-2xl font-bold">
-      {{ "TITLES.$2" | translate }}
+      {{ "TITLES.HOME" | translate }}
     </h1>
 
     <p class="text-lg">
-      {{ "TEXTS.$2.DESCRIPTION" | translate }}
+      {{ "TEXTS.HOME.DESCRIPTION" | translate }}
     </p>
   </section>
 {% endblock %}

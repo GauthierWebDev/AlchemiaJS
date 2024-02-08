@@ -15,7 +15,8 @@ class MakeViewSubCommand extends SubCommand {
   private replaceTemplateVariables(viewName: string): string {
     return fs
       .readFileSync("alambic/templates/View.template", "utf-8")
-      .replace(/\$1/g, viewName);
+      .replace(/\$1/g, viewName)
+      .replace(/\$2/g, viewName.toUpperCase().replace(/-/g, "_"));
   }
 
   private writeView(viewName: string): void {
