@@ -1,4 +1,8 @@
-import type { AlchemiaHttpMethod } from "@/types";
+import type {
+  AlchemiaAvailableLanguageCode,
+  AlchemiaDecoratorValue,
+  AlchemiaHttpMethod,
+} from "@/types";
 import { buildRoutesFromController } from "@/functions";
 import * as middlewaresRegistry from "@/app/middlewares";
 import * as controllers from "@/app/controllers";
@@ -14,9 +18,11 @@ import type {
 const routes: FastifyPluginCallback = (fastify, _, done) => {
   Object.values(controllers).forEach((Controller: any) => {
     const middlewares: AlchemiaMiddlewares = Controller._middlewares;
-    const httpMethods: AlchemiaMethods = Controller._methods;
+    const httpMethods: AlchemiaDecoratorValue<AlchemiaHttpMethod> =
+      Controller._methods;
     const routes: AlchemiaRoutes = Controller._routes;
-    const langs: string[] = Controller._langs;
+    const langs: AlchemiaDecoratorValue<AlchemiaAvailableLanguageCode[]> =
+      Controller._langs;
 
     if (!httpMethods || !routes) return;
     Logger.debug(`Building routes for "${Controller.name}"`);

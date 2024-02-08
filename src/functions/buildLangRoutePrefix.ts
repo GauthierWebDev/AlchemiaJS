@@ -1,8 +1,11 @@
-import type { AlchemiaMultiLingualDecoratorValues } from "@/decorators/multiLingual";
+import type {
+  AlchemiaAvailableLanguageCode,
+  AlchemiaDecoratorValue,
+} from "@/types";
 
 const buildLangRoutePrefix = (
-  methodName: keyof AlchemiaMultiLingualDecoratorValues,
-  langs: AlchemiaMultiLingualDecoratorValues = {}
+  methodName: keyof AlchemiaDecoratorValue<AlchemiaAvailableLanguageCode[]>,
+  langs: AlchemiaDecoratorValue<AlchemiaAvailableLanguageCode[]> = {}
 ) => {
   const methodLanguages = langs[methodName];
   if (!methodLanguages || !methodLanguages.length) return "";

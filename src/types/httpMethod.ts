@@ -1,11 +1,9 @@
 export type AlchemiaHttpMethod =
   | "get"
+  | "head"
   | "post"
   | "put"
-  | "patch"
   | "delete"
   | "options"
-  | "head"
-  | "connect"
-  | "trace"
+  | "patch"
   | "all";
