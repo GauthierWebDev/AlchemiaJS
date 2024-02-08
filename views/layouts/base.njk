@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html lang="{{ lang }}">
-  {% include 'partials/head.njk' %}
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@400&family=Lora&display=swap" rel="stylesheet">
+  
+    <link rel="shortcut icon" href="/public/img/favicon.svg" type="image/x-icon">
+  
+    {% if isProduction %}
+      <link rel="stylesheet" href="/public/css/styles.min.css">
+    {% else %}
+      <link rel="stylesheet" href="/public/css/styles.css">
+    {% endif %}
+  
+    <title>
+      {% block title %}
+        {{ "GLOBAL.TITLE" | translate }}
+      {% endblock %}
+    </title>
+  </head>
 
   <body class="bg-gradient-to-b from-slate-900 to-slate-950 text-slate-50 min-h-screen">
     <header class="static w-screen bg-slate-950/50 backdrop-blur top-0 left-0 text-slate-50 z-40">
