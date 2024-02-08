@@ -1,10 +1,11 @@
-import { multiLingual, method, route } from "@/decorators";
+import { multiLingual, method, route, name } from "@/decorators";
 import Controller from "@/libs/Controller";
 
 class HomeController extends Controller {
   @method("all")
   @route("/home")
-  @multiLingual("fr")
+  @multiLingual()
+  @name("home")
   public async index() {
     this.render("wip");
   }

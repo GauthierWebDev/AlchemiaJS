@@ -6,3 +6,4 @@ export type * from "./middleware";
 export type * from "./language";
 export type * from "./response";
 export type * from "./route";
+export type * from "./name";

@@ -18,6 +18,7 @@ const viewConfig = {
   options: {
     onConfigure: (env: nunjucks.Environment) => {
       Object.keys(filters).forEach((filterName) => {
+        console.log(filters[filterName as keyof typeof filters]);
         env.addFilter(filterName, filters[filterName as keyof typeof filters]);
       });
     },
