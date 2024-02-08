@@ -3,9 +3,9 @@ import titles from "./titles";
 import texts from "./texts";
 
 export default {
-  language: "fr",
+  language: "en",
   texts: {
-    LANGUAGES: global.LANGUAGES.FR,
+    LANGUAGES: global.LANGUAGES.EN,
     GLOBAL: global,
     TITLES: titles,
     TEXTS: texts,
