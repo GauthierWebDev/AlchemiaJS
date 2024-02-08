@@ -3,6 +3,7 @@ import type {
   AlchemiaDecoratorMiddleware,
   AlchemiaDecoratorValue,
   AlchemiaHttpMethod,
+  AlchemiaMiddleware,
   AlchemiaRoute,
 } from "@/types";
 import { buildRoutesFromController } from "@/functions";
