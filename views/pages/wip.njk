@@ -1,12 +1,17 @@
 {% extends "layouts/base.njk" %}
 
 {% block title %}
-  Temp | {{ super() }}
+  {{ "TITLES.WIP" | translate }} | {{ super() }}
 {% endblock %}
 
 {% block content %}
   <section class="flex flex-col gap-2 w-full">
-    <h1 class="text-2xl font-bold">Temp</h1>
-    <p class="text-lg">This is a temp page.</p>
+    <h1 class="text-2xl font-bold">
+      {{ "TITLES.WIP" | translate }}
+    </h1>
+    
+    <p class="text-lg">
+      {{ "TEXTS.WIP.DESCRIPTION" | translate }}
+    </p>
   </section>
 {% endblock %}
