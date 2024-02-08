@@ -1,3 +1,4 @@
 export type * from "./decoratorValue";
 export type * from "./httpMethod";
-export type * from "./languages";
+export type * from "./language";
+export type * from "./route";
