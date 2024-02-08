@@ -6,6 +6,8 @@ const langMiddleware = (
   res: FastifyReply,
   next: FastifyNext
 ) => {
+  console.log("toto");
+
   const fallbackLang = languages.FALLBACK;
   const availableLangs = languages.AVAILABLE;
 
@@ -22,6 +24,8 @@ const langMiddleware = (
   const userLang = req.acceptsLanguages(
     availableLangs.map((lang) => lang.code)
   );
+
+  console.log(userLang);
 
   const langToUse = userLang ? userLang : fallbackLang;
 

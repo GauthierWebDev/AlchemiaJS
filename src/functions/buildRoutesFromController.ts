@@ -24,7 +24,8 @@ const buildRoutesFromController = (
   routes: AlchemiaDecoratorValue<AlchemiaRoute>,
   httpMethods: AlchemiaDecoratorValue<AlchemiaHttpMethod>,
   middlewares: AlchemiaMiddlewares,
-  langs: AlchemiaDecoratorValue<AlchemiaAvailableLanguageCode[]>
+  langs: AlchemiaDecoratorValue<AlchemiaAvailableLanguageCode[]>,
+  getListOfRoutes: boolean = false
 ) => {
   const addedRoutes: AlchemiaRouteHistory[] = [];
   const errorRoutes: AlchemiaRouteHistory[] = [];
@@ -52,9 +53,11 @@ const buildRoutesFromController = (
         langs: langs[key],
       });
     } catch (err: any) {
-      Logger.setTitle(`💀 Error building route "${route}"`, "error")
-        .addMessage(err?.message)
-        .send();
+      if (!getListOfRoutes) {
+        Logger.setTitle(`💀 Error building route "${route}"`, "error")
+          .addMessage(err?.message)
+          .send();
+      }
 
       errorRoutes.push({
         middlewares: middlewares[key],
@@ -66,7 +69,7 @@ const buildRoutesFromController = (
     }
   });
 
-  if (addedRoutes.length) {
+  if (!getListOfRoutes && addedRoutes.length) {
     Logger.debug(
       `${addedRoutes.length} route(s) added for the controller "${Controller.name}":`,
       ...addedRoutes.map((route) => {
@@ -77,7 +80,7 @@ const buildRoutesFromController = (
     );
   }
 
-  if (errorRoutes.length) {
+  if (!getListOfRoutes && errorRoutes.length) {
     Logger.debug(
       `${errorRoutes.length} route(s) failed to be added for the controller "${Controller.name}":`,
       ...errorRoutes.map((route) => {

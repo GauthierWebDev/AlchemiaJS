@@ -1,4 +1,3 @@
-export { default as autoInstantiate } from "./autoInstantiate";
 export { default as multiLingual } from "./multiLingual";
 export { default as middleware } from "./middleware";
 export { default as method } from "./method";

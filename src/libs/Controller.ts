@@ -4,6 +4,8 @@ import { languages, settings } from "@/config";
 import { Logger } from "@/utils";
 
 class Controller {
+  protected start: BigInt;
+  protected end: BigInt | null = null;
   protected request: FastifyRequest;
   protected reply: FastifyReply;
   protected statusCode: number = 200;
@@ -13,6 +15,7 @@ class Controller {
   protected readonly privateFields: string[] = [];
 
   constructor(request: FastifyRequest, reply: FastifyReply) {
+    this.start = process.hrtime.bigint();
     this.request = request;
     this.reply = reply;
     this.lang = request.originalUrl.split("/")[1] || languages.FALLBACK;
@@ -91,6 +94,7 @@ class Controller {
   }
 
   protected log(direction: "in" | "out" = "in", view?: string): void {
+    this.end = process.hrtime.bigint();
     const arrow = direction === "in" ? "⬅️" : "➡️";
 
     const controllerMethod = findControllerMethodByPath(
@@ -106,6 +110,8 @@ class Controller {
     message += `| ${this.request.raw.url}`;
 
     if (direction === "out") {
+      const duration = (Number(this.end) - Number(this.start)) / 1e6;
+
       if (this.statusCode >= 400) {
         message += ` | ${Logger.chalk.red.bold(this.statusCode)}`;
       } else if (this.statusCode >= 300) {
@@ -113,6 +119,8 @@ class Controller {
       } else {
         message += ` | ${Logger.chalk.green.bold(this.statusCode)}`;
       }
+
+      message += ` | ${Logger.chalk.blue.bold(`${duration.toFixed(2)}ms`)}`;
 
       if (view) message += ` | pages/${view}.njk`;
     }

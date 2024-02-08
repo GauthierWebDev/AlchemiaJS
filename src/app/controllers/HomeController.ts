@@ -4,7 +4,7 @@ import Controller from "@/libs/Controller";
 class HomeController extends Controller {
   @method("all")
   @route("/home")
-  @multiLingual("en", "es")
+  @multiLingual("fr")
   public async index() {
     this.render("wip");
   }

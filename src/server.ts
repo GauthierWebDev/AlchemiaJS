@@ -1,4 +1,5 @@
 import * as middlewares from "@/app/middlewares";
+import { notFoundHandler } from "@/functions";
 import fastifyCaching from "@fastify/caching";
 import htmlMinifier from "html-minifier";
 import * as filters from "@/filters";
@@ -39,12 +40,13 @@ server
   })
   .register(require("@fastify/static"), {
     root: path.join(__dirname, "..", "public"),
-    prefix: "/",
+    prefix: "/public/",
   })
   .register(require("@fastify/middie"))
   .register(require("@fastify/view"), viewConfig)
   .register(middlewares.createMiddleware(middlewares.poweredBy))
   .register(middlewares.createMiddleware(middlewares.lang))
-  .register(routes);
+  .register(routes)
+  .register(notFoundHandler, { prefix: "/" });
 
 export default server;

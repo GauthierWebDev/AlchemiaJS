@@ -2,7 +2,12 @@ import { settings } from "@/config";
 import { Logger } from "@/utils";
 import server from "@/server";
 
-server.listen({ port: settings.PORT, host: "0.0.0.0" }, () => {
+server.listen({ port: settings.PORT, host: "0.0.0.0" }, (error) => {
+  if (error) {
+    Logger.setTitle("🚀 Server").addMessage(error.message).send();
+    process.exit(1);
+  }
+
   const parts = [];
 
   parts.push(Logger.chalk.green("Server started at:"));

@@ -18,6 +18,35 @@ import type {
   FastifyRequest,
 } from "fastify";
 
+export const getRoutes = () => {
+  const builtRoutes: any[] = [];
+
+  Object.values(controllers).forEach((Controller: any) => {
+    const middlewares: AlchemiaDecoratorValue<AlchemiaDecoratorMiddleware[]> =
+      Controller._middlewares;
+    const httpMethods: AlchemiaDecoratorValue<AlchemiaHttpMethod> =
+      Controller._methods;
+    const routes: AlchemiaDecoratorValue<AlchemiaRoute> = Controller._routes;
+    const langs: AlchemiaDecoratorValue<AlchemiaAvailableLanguageCode[]> =
+      Controller._langs;
+
+    if (!routes || !httpMethods) return;
+
+    const controllerRoutes = buildRoutesFromController(
+      Controller,
+      routes,
+      httpMethods,
+      middlewares,
+      langs,
+      true
+    );
+
+    builtRoutes.push(...controllerRoutes);
+  });
+
+  return builtRoutes;
+};
+
 const routes: FastifyPluginCallback = (fastify, _, done) => {
   Object.values(controllers).forEach((Controller: any) => {
     const middlewares: AlchemiaDecoratorValue<AlchemiaDecoratorMiddleware[]> =
