@@ -7,7 +7,7 @@ class HomeController extends Controller {
   @multiLingual()
   @name("home")
   public async index() {
-    this.render("wip");
+    this.render("home");
   }
 }
 
