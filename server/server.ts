@@ -2,7 +2,6 @@ import type { FastifyInstance } from 'fastify';
 
 import fastifyMultipart from '@fastify/multipart';
 import { settings, security } from '$/config';
-import { notFoundHandler } from '#/functions';
 import fastifyCaching from '@fastify/caching';
 import fastifySession from '@fastify/session';
 import fastifyCookie from '@fastify/cookie';
@@ -44,8 +43,7 @@ const buildServer = async (): Promise<FastifyInstance> => {
       },
       saveUninitialized: true,
     })
-    .register(routes)
-    .register(notFoundHandler, { prefix: '/' });
+    .register(routes);
 
   return server;
 };

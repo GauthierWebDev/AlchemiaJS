@@ -9,9 +9,10 @@ buildServer()
   .then(async (server: FastifyInstance) => {
     // await appendFuzzySearch();
 
-    server.listen({ port: settings.PORT, host: '0.0.0.0' }, (error: any) => {
+    server.listen({ port: settings.PORT, host: '0.0.0.0' }, (error: unknown) => {
       if (error) {
-        Logger.setTitle('🚀 Server').addMessage(error.message).send();
+        Logger.setTitle('🚀 Server', 'error').send();
+        console.trace(error);
         process.exit(1);
       }
 
@@ -35,7 +36,7 @@ buildServer()
       Logger.setTitle('🚀 Server').addMessage(parts.join('\n')).send();
     });
   })
-  .catch((error: any) => {
+  .catch((error: unknown) => {
     Logger.setTitle('🚀 Server', 'error').addMessage('Server failed to start').send();
     console.trace(error);
     process.exit(1);

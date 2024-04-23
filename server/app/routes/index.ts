@@ -2,6 +2,7 @@
 import type { MetadataControllerMethod } from '#/core/Metadata';
 import type { FastifyPluginCallback } from 'fastify';
 
+import { app as appsMiddlewares } from '#/app/middlewares';
 import * as controllers from '#/app/controllers';
 import { Metadata } from '#/core';
 import { Logger } from '#/utils';
@@ -36,10 +37,25 @@ const routes: FastifyPluginCallback = (fastify, _, done) => {
 
   preparedRoutes.forEach((preparedRoute) => {
     try {
-      fastify[preparedRoute.httpMethod || 'all'](preparedRoute.path!, async (request, reply) => {
-        const instance = new preparedRoute.controller(request, reply);
-        return instance[preparedRoute.name as keyof typeof instance]();
-      });
+      fastify[preparedRoute.httpMethod || 'all'](
+        preparedRoute.path!,
+        {
+          onRequest: [appsMiddlewares.identifier],
+          preHandler: preparedRoute.middlewares || [],
+          onSend: [appsMiddlewares.poweredBy],
+        },
+        async (request, reply) => {
+          try {
+            const instance = new preparedRoute.controller(request, reply);
+            return instance[preparedRoute.name as keyof typeof instance]();
+          } catch (error: unknown) {
+            Logger.setTitle(`💀 Error on route "${preparedRoute.path}"`, 'error').send();
+
+            console.trace(error);
+            reply.code(500).send({ message: 'Internal server error' });
+          }
+        },
+      );
 
       validRoutes.push(preparedRoute);
     } catch (error: unknown) {
@@ -65,8 +81,13 @@ const routes: FastifyPluginCallback = (fastify, _, done) => {
     );
 
   Object.entries(groupedRoutesByController).forEach(([controllerName, routes]) => {
-    Logger.setTitle(controllerName, 'success')
-      .addMessage(routes.map((route) => route.name).join(', '))
+    Logger.setTitle(`Built routes for ${controllerName}`, 'success')
+      .addMessage(
+        ...routes.map(
+          (route) =>
+            `[${(route.httpMethod || 'all').toUpperCase()}] ${route.path} -> ${controllerName}.${route.name}`,
+        ),
+      )
       .send();
   });
 
