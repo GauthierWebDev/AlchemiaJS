@@ -8,7 +8,11 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["vite/client"],
     "baseUrl": "./",
-    "paths": { "@/*": ["./*"] },
+    "paths": {
+      "@/*": ["./src/*"],
+      "#/*": ["./server/*"],
+      "$/*": ["./*"]
+    },
     "jsx": "react-jsx",
     "skipLibCheck": true,
     "esModuleInterop": true

@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 
-import { ErrorController } from '@/app/controllers';
-import { getRoutes } from '@/app/routes';
+import { ErrorController } from '#/app/controllers';
+import { getRoutes } from '#/app/routes';
 
 const notFoundHandler = (
   instance: FastifyInstance,

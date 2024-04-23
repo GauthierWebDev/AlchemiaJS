@@ -1,0 +1,1 @@
+const middlewareDecorator = (middleware: Middleware) => {};
