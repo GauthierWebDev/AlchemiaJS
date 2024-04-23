@@ -1,17 +1,27 @@
 // import type { FastifyPluginCallback, FastifyReply, FastifyRequest } from 'fastify';
+import type { MetadataControllerMethod } from '#/core/Metadata';
 import type { FastifyPluginCallback } from 'fastify';
 
-// import { routes as routeMiddlewares, app as appMiddlewares } from '#/app/middlewares';
-import { buildRoutesFromController } from '#/functions';
 import * as controllers from '#/app/controllers';
+import { Metadata } from '#/core';
+
+type Route = MetadataControllerMethod & { controller: (typeof controllers)[keyof typeof controllers] };
 
 export const getRoutes = () => {
-  const builtRoutes: ReturnType<typeof buildRoutesFromController> = [];
+  const builtRoutes: Route[] = [];
 
-  Object.entries(controllers).forEach(([controllerName, controller]) => {
-    const builtRoutesFromController = buildRoutesFromController(controller);
+  Object.values(controllers).forEach((controller) => {
+    const controllerMetadata = Metadata.getInstance().getControllerRoutes(controller);
+    if (!controllerMetadata) return;
 
-    builtRoutes.push(...builtRoutesFromController);
+    controllerMetadata.controllerMethods.forEach((methodMetadata) => {
+      if (!methodMetadata.path) return;
+
+      builtRoutes.push({
+        controller,
+        ...methodMetadata,
+      });
+    });
   });
 
   return builtRoutes;
