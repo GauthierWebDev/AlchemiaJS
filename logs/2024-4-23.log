@@ -649,3 +649,378 @@ Settings:
 -> PORT: 5000
 -> NODE_ENV: development
 -> LOG_LEVEL: debug
+[22:55:52] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[22:55:52] [SUCCESS] [GET] /image -> MediaController.image
+[22:55:52] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[22:56:12] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[22:56:12] [SUCCESS] [GET] /image -> MediaController.image
+[22:56:12] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[22:57:01] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[22:57:01] [SUCCESS] [GET] /image -> MediaController.image
+[22:57:01] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[22:57:31] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[22:57:31] [SUCCESS] [GET] /image -> MediaController.image
+[22:57:31] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[22:58:55] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[22:58:55] [SUCCESS] [GET] /image -> MediaController.image
+[22:58:55] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[22:59:33] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[22:59:33] [SUCCESS] [GET] /image -> MediaController.image
+[22:59:33] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:00:12] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:00:12] [SUCCESS] [GET] /image -> MediaController.image
+[23:00:12] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:01:33] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:01:33] [SUCCESS] [GET] /image -> MediaController.image
+[23:01:33] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:01:52] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:01:52] [SUCCESS] [GET] /image -> MediaController.image
+[23:01:52] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:02:28] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:02:28] [SUCCESS] [GET] /image -> MediaController.image
+[23:02:28] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:02:31] [INFO] ➡️  [GET] | /image | 200 | 3.80ms
+[23:02:53] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:02:53] [SUCCESS] [GET] /image -> MediaController.image
+[23:02:53] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:03:03] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:03:03] [SUCCESS] [GET] /image -> MediaController.image
+[23:03:03] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:03:08] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:03:08] [SUCCESS] [GET] /image -> MediaController.image
+[23:03:08] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:03:11] [INFO] ➡️  [GET] | /image | 200 | 3.94ms
+[23:03:24] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:03:24] [SUCCESS] [GET] /image -> MediaController.image
+[23:03:24] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:03:27] [INFO] ➡️  [GET] | MediaController.[object Object] | /image | 200 | 4.04ms
+[23:03:40] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:03:40] [SUCCESS] [GET] /image -> MediaController.image
+[23:03:40] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:03:42] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:03:42] [SUCCESS] [GET] /image -> MediaController.image
+[23:03:42] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:03:58] [INFO] ➡️  [GET] | MediaController.[object Object] | /image | 200 | 3.64ms
+[23:04:13] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:04:13] [SUCCESS] [GET] /image -> MediaController.image
+[23:04:13] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:04:14] [INFO] ➡️  [GET] | MediaController.image | /image | 200 | 3.70ms
+[23:04:42] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:04:42] [SUCCESS] [GET] /image -> MediaController.image
+[23:04:42] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:04:45] [INFO] ✦  [GET] | MediaController.image | /image | 200 | 5.09ms
+[23:04:54] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:04:54] [SUCCESS] [GET] /image -> MediaController.image
+[23:04:54] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:05:00] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:05:00] [SUCCESS] [GET] /image -> MediaController.image
+[23:05:00] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:05:03] [INFO] ✦  [GET] | MediaController.image | /image | 200 | 3.69ms
+[23:05:03] [INFO] ✦  [GET] | MediaController.image | /image | 200 | 0.37ms
+[23:05:03] [INFO] ✦  [GET] | MediaController.image | /image | 200 | 0.37ms
+[23:05:04] [INFO] ✦  [GET] | MediaController.image | /image | 200 | 0.38ms
+[23:05:04] [INFO] ✦  [GET] | MediaController.image | /image | 200 | 0.67ms
+[23:05:04] [INFO] ✦  [GET] | MediaController.image | /image | 200 | 0.31ms
+[23:05:27] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:05:27] [SUCCESS] [GET] /image -> MediaController.image
+[23:05:27] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:05:29] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 3.48ms
+[23:05:36] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.45ms
+[23:05:36] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.55ms
+[23:05:36] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.34ms
+[23:05:37] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.26ms
+[23:05:37] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.36ms
+[23:05:37] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.40ms
+[23:05:37] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.32ms
+[23:05:37] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.81ms
+[23:05:38] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.47ms
+[23:05:38] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 4.22ms
+[23:05:38] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.90ms
+[23:05:53] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:05:53] [SUCCESS] [GET] /image -> MediaController.image
+[23:05:53] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:05:59] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:05:59] [SUCCESS] [GET] /image -> MediaController.image
+[23:05:59] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:06:01] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 4.27ms
+[23:06:10] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:06:10] [SUCCESS] [GET] /image -> MediaController.image
+[23:06:10] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:06:45] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:06:45] [SUCCESS] [GET] /image -> MediaController.image
+[23:06:45] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:06:50] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:06:50] [SUCCESS] [GET] /image -> MediaController.image
+[23:06:50] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:07:10] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:07:10] [SUCCESS] [GET] /image -> MediaController.image
+[23:07:10] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:07:45] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:07:45] [SUCCESS] [GET] /image -> MediaController.image
+[23:07:45] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:07:53] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:07:53] [SUCCESS] [GET] /image -> MediaController.image
+[23:07:53] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:07:57] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 3.23ms
+[23:07:58] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.46ms
+[23:07:58] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.36ms
+[23:07:58] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.36ms
+[23:08:35] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:08:35] [SUCCESS] [GET] /image -> MediaController.image
+[23:08:35] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:08:38] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 4.00ms
+[23:08:47] [DEBUG] 1 routes successfully registered out of 1 routes (0 failed)
+[23:08:47] [SUCCESS] [GET] /image -> MediaController.image
+[23:08:47] [INFO] Server started at:
+-> http://localhost:5000
+---------
+Settings:
+-> PROTOCOL: http
+-> DOMAIN: localhost
+-> PORT: 5000
+-> NODE_ENV: development
+-> LOG_LEVEL: debug
+[23:08:52] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 4.24ms
+[23:08:52] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.37ms
+[23:08:52] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.34ms
+[23:08:52] [INFO] ✦ [GET] | MediaController.image | /image | 200 | 0.38ms

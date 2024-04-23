@@ -1,15 +1,16 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import type { PrismaInstance } from '#/services/Prisma';
-import type { AlchemiaHttpMethod } from '$/types';
 
-import { Logger } from '#/utils';
-// import { Cookie, Logger, Prisma, Tokens, JWT } from '#/utils';
-// import { findControllerMethodByPath } from '#/functions';
+import * as controllers from '#/app/controllers';
+
+import { Prisma } from '#/services';
+import { Metadata } from '#/core';
 import { errors } from '$/config';
+import { Logger } from '#/utils';
 
 class Controller {
-  protected start: BigInt;
-  protected end: BigInt | null = null;
+  protected start: bigint;
+  protected end: bigint | null = null;
   protected request: FastifyRequest;
   protected reply: FastifyReply;
   protected statusCode: number = 200;
@@ -50,81 +51,48 @@ class Controller {
       ...data,
     });
 
-    this.log('out');
+    this.log();
   }
 
-  protected removePrivateFields(data: { [key: string | number]: any }): {
-    [key: string | number]: any;
-  } {
-    const newData = { ...data };
-
-    for (const field of this.privateFields) {
-      delete newData[field];
-    }
-
-    return newData;
-  }
-
-  protected log(direction: 'in' | 'out' = 'in'): void {
+  protected log(): void {
     this.end = process.hrtime.bigint();
-    const arrow = direction === 'in' ? '⬅️' : '➡️';
+    const arrow = '✦';
 
-    const controllerMethod = findControllerMethodByPath(
-      this.constructor.name,
-      this.request.method as AlchemiaHttpMethod,
-      this.request.raw.url,
-    );
+    const controllerMethods = Metadata.getInstance().getControllerRoutes(
+      this.constructor as (typeof controllers)[keyof typeof controllers],
+    )!;
 
-    let message = `${arrow} `;
-    message += ` [${this.request.method}] `;
+    const controllerMethod = controllerMethods.controllerMethods.find((method) => {
+      return method.path === this.request.raw.url && method.httpMethod?.toUpperCase() === this.request.method;
+    });
+
+    let message = `${arrow} [${Logger.chalk.white.bold(this.request.method)}] `;
     if (this.constructor.name && controllerMethod) {
-      message += `| ${this.constructor.name}.${controllerMethod} `;
+      message += `| ${this.constructor.name}.${controllerMethod.name} `;
     }
     message += `| ${this.request.raw.url}`;
 
-    if (direction === 'out') {
-      const duration = (Number(this.end) - Number(this.start)) / 1e6;
+    const duration = (Number(this.end) - Number(this.start)) / 1e6;
 
-      if (this.statusCode >= 400) {
-        message += ` | ${Logger.chalk.red.bold(this.statusCode)}`;
-      } else if (this.statusCode >= 300) {
-        message += ` | ${Logger.chalk.yellow.bold(this.statusCode)}`;
-      } else {
-        message += ` | ${Logger.chalk.green.bold(this.statusCode)}`;
-      }
-
-      message += ` | ${Logger.chalk.blue.bold(`${duration.toFixed(2)}ms`)}`;
+    if (this.statusCode >= 400) {
+      message += ` | ${Logger.chalk.red.bold(this.statusCode)}`;
+    } else if (this.statusCode >= 300) {
+      message += ` | ${Logger.chalk.yellow.bold(this.statusCode)}`;
+    } else {
+      message += ` | ${Logger.chalk.green.bold(this.statusCode)}`;
     }
+
+    message += ` | ${Logger.chalk.blue.bold(`${duration.toFixed(2)}ms`)}`;
 
     Logger.setTitle('', 'info').addMessage(message).send();
   }
 
-  public async updateTokens(userId?: string) {
-    const { user, managedArtists } = await Tokens.buildTokens(this.prisma, userId);
-
-    if (user) {
-      this.request.session.set('user', user.user);
-      Cookie.set(this.reply, 'user', JWT.sign(user));
-      Cookie.set(this.reply, 'token', JWT.sign(user));
-    } else {
-      this.request.session.set('user', null);
-      Cookie.delete(this.reply, 'user');
-      Cookie.delete(this.reply, 'token');
-    }
-
-    if (managedArtists) {
-      Cookie.set(this.reply, 'artists', JSON.stringify(managedArtists));
-    } else Cookie.delete(this.reply, 'artists');
-
-    return this;
-  }
-
   public async sendUnauthorized() {
-    this.setCode(401).sendResponse({ error: errors.PERMISSION.UNAUTHORIZED });
+    this.setCode(401).sendResponse({ error: errors.GENERIC.UNAUTHORIZED });
   }
 
   public async sendForbidden() {
-    this.setCode(403).sendResponse({ error: errors.PERMISSION.UNAUTHORIZED });
+    this.setCode(403).sendResponse({ error: errors.GENERIC.FORBIDDEN });
   }
 
   protected sendInternalError(error: Error): void {
