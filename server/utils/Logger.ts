@@ -53,10 +53,7 @@ class Logger {
 
     const logType = this.type.toUpperCase();
 
-    fs.appendFileSync(
-      logPath,
-      `\n[${this.getTimestamp()}] [${logType}] ${this.raw()}`,
-    );
+    fs.appendFileSync(logPath, `\n[${this.getTimestamp()}] [${logType}] ${this.raw()}`);
   }
 
   /**
@@ -87,10 +84,7 @@ class Logger {
    * @param type - The type of the logger (default: "info").
    * @returns The updated Logger instance.
    */
-  public static setTitle(
-    title: string,
-    type: LoggerType = 'info',
-  ): typeof Logger {
+  public static setTitle(title: string, type: LoggerType = 'info'): typeof Logger {
     this.type = type;
     this.title = this.getColor(type, true).bold(title);
     return this;
@@ -138,7 +132,8 @@ class Logger {
    * @returns The raw log messages.
    */
   public static raw() {
-    return this.messages.join(' ').replace(/\\u001b\[\d+m/g, '');
+    // eslint-disable-next-line no-control-regex
+    return this.messages.join(' ').replace(/\u001b\[\d+m/g, '');
   }
 }
 
