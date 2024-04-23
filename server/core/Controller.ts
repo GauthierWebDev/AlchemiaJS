@@ -2,9 +2,10 @@ import type { FastifyRequest, FastifyReply } from 'fastify';
 import type { PrismaInstance } from '#/services/Prisma';
 import type { AlchemiaHttpMethod } from '$/types';
 
-import { Cookie, Logger, Prisma, Tokens, JWT } from '#/utils';
-import { findControllerMethodByPath } from '#/functions';
-import { errors } from '@/config';
+import { Logger } from '#/utils';
+// import { Cookie, Logger, Prisma, Tokens, JWT } from '#/utils';
+// import { findControllerMethodByPath } from '#/functions';
+import { errors } from '$/config';
 
 class Controller {
   protected start: BigInt;
@@ -99,10 +100,7 @@ class Controller {
   }
 
   public async updateTokens(userId?: string) {
-    const { user, managedArtists } = await Tokens.buildTokens(
-      this.prisma,
-      userId,
-    );
+    const { user, managedArtists } = await Tokens.buildTokens(this.prisma, userId);
 
     if (user) {
       this.request.session.set('user', user.user);

@@ -1,58 +1,42 @@
-import 'reflect-metadata';
+import type { FastifyInstance } from 'fastify';
 
-import { renderPage } from 'vike/server';
-import compression from 'compression';
-import { root } from './root.js';
-import express from 'express';
+// import { appendFuzzySearch } from "./functions";
+import { settings } from '$/config';
+import buildServer from '#/server';
+import { Logger } from '#/utils';
 
-const isProduction = process.env.NODE_ENV === 'production';
+buildServer()
+  .then(async (server: FastifyInstance) => {
+    // await appendFuzzySearch();
 
-startServer();
-
-async function startServer() {
-  const app = express();
-
-  app.use(compression());
-
-  if (isProduction) {
-    const sirv = (await import('sirv')).default;
-    app.use(sirv(`${root}/dist/client`));
-  } else {
-    const vite = await import('vite');
-    const viteDevMiddleware = (
-      await vite.createServer({
-        root,
-        server: { middlewareMode: true },
-      })
-    ).middlewares;
-    app.use(viteDevMiddleware);
-  }
-
-  app.get('*', async (req, res, next) => {
-    const pageContextInit = { urlOriginal: req.originalUrl };
-    const pageContext = await renderPage(pageContextInit);
-
-    if (pageContext.errorWhileRendering) {
-      // Install error tracking here, see https://vike.dev/errors
-    }
-
-    const { httpResponse } = pageContext;
-    if (!httpResponse) {
-      return next();
-    } else {
-      const { body, statusCode, headers, earlyHints } = httpResponse;
-
-      if (res.writeEarlyHints) {
-        res.writeEarlyHints({ link: earlyHints.map((e) => e.earlyHintLink) });
+    server.listen({ port: settings.PORT, host: '0.0.0.0' }, (error: any) => {
+      if (error) {
+        Logger.setTitle('🚀 Server').addMessage(error.message).send();
+        process.exit(1);
       }
 
-      headers.forEach(([name, value]) => res.setHeader(name, value));
-      res.status(statusCode).send(body);
-    }
+      const parts = [];
+
+      parts.push(Logger.chalk.green('Server started at:'));
+      parts.push(Logger.chalk.yellow(`-> http://localhost:${settings.PORT}`));
+
+      if (settings.DOMAIN !== 'localhost') {
+        parts.push(Logger.chalk.yellow(`-> ${settings.PROTOCOL}://${settings.DOMAIN}`));
+      }
+
+      parts.push('---------');
+      parts.push(Logger.chalk.green('Settings:'));
+      parts.push(Logger.chalk.yellow(`-> PROTOCOL: ${settings.PROTOCOL}`));
+      parts.push(Logger.chalk.yellow(`-> DOMAIN: ${settings.DOMAIN}`));
+      parts.push(Logger.chalk.yellow(`-> PORT: ${settings.PORT}`));
+      parts.push(Logger.chalk.yellow(`-> NODE_ENV: ${settings.NODE_ENV}`));
+      parts.push(Logger.chalk.yellow(`-> LOG_LEVEL: ${settings.LOG_LEVEL}`));
+
+      Logger.setTitle('🚀 Server').addMessage(parts.join('\n')).send();
+    });
+  })
+  .catch((error: any) => {
+    Logger.setTitle('🚀 Server', 'error').addMessage('Server failed to start').send();
+    console.trace(error);
+    process.exit(1);
   });
-
-  const port = process.env.PORT || 3000;
-
-  app.listen(port);
-  console.log(`Server running at http://localhost:${port}`);
-}

@@ -1,15 +1,21 @@
 import type { FastifyInstance } from 'fastify';
 
 import fastifyMultipart from '@fastify/multipart';
-import { settings, security } from '@/config';
+import { settings, security } from '$/config';
+import { notFoundHandler } from '#/functions';
 import fastifyCaching from '@fastify/caching';
 import fastifySession from '@fastify/session';
 import fastifyCookie from '@fastify/cookie';
 import fastifyCors from '@fastify/cors';
+import routes from '#/app/routes';
 import Fastify from 'fastify';
 
 declare module 'fastify' {
   interface Session {}
+
+  interface FastifyRequest {
+    identifier: string;
+  }
 }
 
 const buildServer = async (): Promise<FastifyInstance> => {
@@ -31,16 +37,15 @@ const buildServer = async (): Promise<FastifyInstance> => {
       secret: security.SESSION_SECRET,
       cookieName: 'session',
       cookie: {
-        secure:
-          settings.NODE_ENV === 'production' && settings.PROTOCOL === 'https',
+        secure: settings.NODE_ENV === 'production' && settings.PROTOCOL === 'https',
         maxAge: 60 * 60 * 24 * 1000, // 1 day
         httpOnly: true,
         domain: 'localhost',
       },
       saveUninitialized: true,
     })
-    .register(require('@/server/app/routes'))
-    .register(require('@/server/functions').notFoundHandler, { prefix: '/' });
+    .register(routes)
+    .register(notFoundHandler, { prefix: '/' });
 
   return server;
 };

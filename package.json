@@ -3,7 +3,7 @@
     "dev": "npm run server:dev",
     "prod": "npm run lint && npm run build && npm run server:prod",
     "build": "vite build",
-    "server": "node --loader ts-node/esm ./server/index.ts",
+    "server": "node --loader ./loader.js --experimental-specifier-resolution=node ./server/index.ts",
     "server:dev": "npm run server",
     "server:prod": "cross-env NODE_ENV=production npm run server",
     "lint": "eslint . --max-warnings 0"
@@ -26,17 +26,18 @@
     "chalk": "^5.3.0",
     "compression": "^1.7.4",
     "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
     "eslint": "^8.55.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "express": "^4.18.2",
     "fastify": "^4.26.2",
+    "fastify-fingerprint": "^1.4.1",
     "node-fetch": "^3.3.2",
     "prisma": "^5.13.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "reflect-metadata": "^0.2.2",
     "sirv": "^2.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.3",
@@ -46,6 +47,7 @@
   "type": "module",
   "devDependencies": {
     "eslint-config-prettier": "9.1.0",
-    "prettier": "3.2.5"
+    "prettier": "3.2.5",
+    "tsconfig-paths": "^4.2.0"
   }
 }

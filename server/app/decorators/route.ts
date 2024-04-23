@@ -1,9 +1,16 @@
 import type { AlchemiaRouteMetadata } from '$/types';
 
-const routeDecorator = (route: AlchemiaRouteMetadata) => {
-  return (target: object, key: string) => {
-    Reflect.defineMetadata('alchemia:route', route, target, key);
+import * as controllers from '#/app/controllers';
+import { Metadata } from '#/core';
+
+export const routeDecorator = (route: AlchemiaRouteMetadata) => {
+  console.log(route);
+
+  return (
+    Controller: InstanceType<(typeof controllers)[keyof typeof controllers]>,
+    controllerMethod: string,
+  ) => {
+    console.log(Controller.constructor.name, controllerMethod);
+    Metadata.getInstance().addRoute(Controller, controllerMethod, route);
   };
 };
-
-export default routeDecorator;
