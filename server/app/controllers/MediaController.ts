@@ -1,12 +1,11 @@
-import { method, route } from '@/decorators';
-import { Controller } from '@/core';
+import { middlewares } from '#/app/decorators';
+import { Controller } from '#/core';
 
-class MediaController extends Controller {
-  @method('get')
-  @route('/images/:filePath')
+class TestController extends Controller {
+  @middlewares('auth')
   public async image() {
     this.sendResponse({ message: 'Image' });
   }
 }
 
-export default MediaController;
+export default TestController;

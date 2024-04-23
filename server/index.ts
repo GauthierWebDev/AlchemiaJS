@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { renderPage } from 'vike/server';
 import compression from 'compression';
 import { root } from './root.js';

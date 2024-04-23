@@ -15,7 +15,8 @@
     },
     "jsx": "react-jsx",
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "experimentalDecorators": true
   },
   "ts-node": {
     "transpileOnly": true,
