@@ -7,6 +7,8 @@
     "moduleResolution": "Bundler",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["vite/client"],
+    "baseUrl": "./",
+    "paths": { "@/*": ["./*"] },
     "jsx": "react-jsx",
     "skipLibCheck": true,
     "esModuleInterop": true
