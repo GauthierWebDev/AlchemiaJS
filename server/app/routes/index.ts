@@ -39,11 +39,11 @@ const routes: FastifyPluginCallback = (fastify, _, done) => {
     try {
       fastify[preparedRoute.httpMethod || 'all'](
         preparedRoute.path!,
-        // {
-        //   onRequest: [appsMiddlewares.identifier],
-        //   preHandler: preparedRoute.middlewares || [],
-        //   onSend: [appsMiddlewares.poweredBy],
-        // },
+        {
+          onRequest: [appsMiddlewares.identifier],
+          preHandler: preparedRoute.middlewares || [],
+          onSend: [appsMiddlewares.poweredBy],
+        },
         async (request, reply) => {
           try {
             const instance = new preparedRoute.controller(request, reply);

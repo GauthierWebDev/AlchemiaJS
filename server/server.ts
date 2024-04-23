@@ -15,6 +15,10 @@ declare module 'fastify' {
   interface FastifyRequest {
     identifier: string;
   }
+
+  interface FastifyNext {
+    (err?: Error): void;
+  }
 }
 
 const buildServer = async (): Promise<FastifyInstance> => {
