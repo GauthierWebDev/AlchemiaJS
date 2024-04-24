@@ -3,9 +3,10 @@
     "dev": "npm run server:dev",
     "prod": "npm run lint && npm run build && npm run server:prod",
     "build": "vite build",
-    "server": "node --loader ./loader.js --experimental-specifier-resolution=node ./server/index.ts",
+    "server": "node --experimental-specifier-resolution=node ./register ./server/index.ts",
     "server:dev": "nodemon",
     "server:prod": "cross-env NODE_ENV=production npm run server",
+    "alambic": "node --experimental-specifier-resolution=node ./register ./alambic",
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {

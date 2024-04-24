@@ -1,5 +1,5 @@
 {
   "watch": ["server", "loader.js", "tsconfig.json", "package.json", "config"],
   "ext": "js,ts,json",
-  "exec": "node --loader ./loader.js --experimental-specifier-resolution=node ./server/index.ts"
+  "exec": "npm run server"
 }
