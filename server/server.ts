@@ -1,13 +1,20 @@
 import type { FastifyInstance } from 'fastify';
 
+import fastifyEarlyHints from '@fastify/early-hints';
 import fastifyMultipart from '@fastify/multipart';
+import fastifyCompress from '@fastify/compress';
 import { settings, security } from '$/config';
 import fastifyCaching from '@fastify/caching';
 import fastifySession from '@fastify/session';
 import fastifyCookie from '@fastify/cookie';
+import fastifyStatic from '@fastify/static';
+import { renderPage } from 'vike/server';
 import fastifyCors from '@fastify/cors';
+import fastifyVite from '@fastify/vite';
 import routes from '#/app/routes';
+import { root } from './root';
 import Fastify from 'fastify';
+import { request } from 'http';
 
 declare module 'fastify' {
   interface Session {}
@@ -21,10 +28,37 @@ declare module 'fastify' {
   }
 }
 
+const isProduction = settings.NODE_ENV === 'production';
+
 const buildServer = async (): Promise<FastifyInstance> => {
   const server = Fastify();
 
+  if (isProduction) {
+    server.register(fastifyStatic, {
+      root: `${root}/dist/client/assets`,
+      prefix: '/assets/',
+    });
+  } else {
+    const vite = await import('vite');
+    const viteDevMiddleware = (
+      await vite.createServer({
+        root,
+        server: { middlewareMode: true },
+      })
+    ).middlewares;
+
+    server.addHook('onRequest', async (request, reply) => {
+      const next = () =>
+        new Promise<void>((resolve) => {
+          viteDevMiddleware(request.raw, reply.raw, resolve);
+        });
+
+      await next();
+    });
+  }
+
   server
+    .register(fastifyCompress)
     .register(fastifyCaching, {
       expiresIn: 60 * 60 * 24 * 7, // 7 days
       privacy: 'public',
@@ -47,7 +81,27 @@ const buildServer = async (): Promise<FastifyInstance> => {
       },
       saveUninitialized: true,
     })
+    .register(fastifyEarlyHints, { warn: true })
     .register(routes);
+
+  server.get('*', async (request, reply) => {
+    const pageContextInit = {
+      urlOriginal: request.raw.url || '',
+    };
+
+    const pageContext = await renderPage(pageContextInit);
+    const { httpResponse } = pageContext;
+
+    if (!httpResponse) return reply.callNotFound();
+
+    const { statusCode, headers } = httpResponse;
+    headers.forEach(([name, value]) => reply.raw.setHeader(name, value));
+
+    reply.status(statusCode);
+    httpResponse.pipe(reply.raw);
+
+    return reply;
+  });
 
   return server;
 };

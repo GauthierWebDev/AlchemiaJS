@@ -37,7 +37,10 @@ const routes: FastifyPluginCallback = (fastify, _, done) => {
 
   preparedRoutes.forEach((preparedRoute) => {
     try {
-      fastify[preparedRoute.httpMethod || 'all'](
+      preparedRoute.path = `/api${preparedRoute.path}`.replace(/\/+/g, '/').replace(/\/$/, '');
+      preparedRoute.httpMethod = preparedRoute.httpMethod || 'all';
+
+      fastify[preparedRoute.httpMethod](
         preparedRoute.path!,
         {
           onRequest: [appsMiddlewares.identifier],
@@ -83,10 +86,9 @@ const routes: FastifyPluginCallback = (fastify, _, done) => {
   Object.entries(groupedRoutesByController).forEach(([controllerName, routes]) => {
     Logger.setTitle(`Built routes for ${controllerName}`, 'success')
       .addMessage(
-        ...routes.map(
-          (route) =>
-            `[${(route.httpMethod || 'all').toUpperCase()}] ${route.path} -> ${controllerName}.${route.name}`,
-        ),
+        ...routes.map((route) => {
+          return `[${(route.httpMethod || 'all').toUpperCase()}] ${route.path} -> ${controllerName}.${route.name}`;
+        }),
       )
       .send();
   });

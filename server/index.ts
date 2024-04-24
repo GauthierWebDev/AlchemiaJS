@@ -1,14 +1,11 @@
 import type { FastifyInstance } from 'fastify';
 
-// import { appendFuzzySearch } from "./functions";
 import { settings } from '$/config';
 import buildServer from '#/server';
 import { Logger } from '$/utils';
 
 buildServer()
   .then(async (server: FastifyInstance) => {
-    // await appendFuzzySearch();
-
     server.listen({ port: settings.PORT, host: '0.0.0.0' }, (error: unknown) => {
       if (error) {
         Logger.setTitle('🚀 Server', 'error').send();
