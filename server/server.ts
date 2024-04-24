@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 
+import { app as appMiddlewares } from '#/app/middlewares';
 import fastifyMultipart from '@fastify/multipart';
 import fastifyCompress from '@fastify/compress';
 import { settings, security } from '$/config';
@@ -30,6 +31,33 @@ const isProduction = settings.NODE_ENV === 'production';
 const buildServer = async (): Promise<FastifyInstance> => {
   const server = Fastify();
 
+  server
+    .addHook('onRequest', appMiddlewares.poweredBy)
+    .addHook('onRequest', appMiddlewares.identifier)
+    .register(fastifyCompress)
+    .register(fastifyCaching, {
+      expiresIn: 60 * 60 * 24 * 7, // 7 days
+      privacy: 'public',
+    })
+    .register(fastifyCors, {
+      origin: true,
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    })
+    .register(fastifyMultipart)
+    .register(fastifyCookie)
+    .register(fastifySession, {
+      secret: security.SESSION_SECRET,
+      cookieName: 'session',
+      cookie: {
+        secure: settings.NODE_ENV === 'production' && settings.PROTOCOL === 'https',
+        maxAge: 60 * 60 * 24 * 1000, // 1 day
+        httpOnly: true,
+        domain: 'localhost',
+      },
+      saveUninitialized: true,
+    });
+
   if (isProduction) {
     server.register(fastifyStatic, {
       root: `${root}/dist/client/assets`,
@@ -54,33 +82,7 @@ const buildServer = async (): Promise<FastifyInstance> => {
     });
   }
 
-  server
-    .register(fastifyCompress)
-    .register(fastifyCaching, {
-      expiresIn: 60 * 60 * 24 * 7, // 7 days
-      privacy: 'public',
-    })
-    .register(fastifyCors, {
-      origin: true,
-      credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    })
-    .register(fastifyMultipart)
-    .register(fastifyCookie)
-    .register(fastifySession, {
-      secret: security.SESSION_SECRET,
-      cookieName: 'session',
-      cookie: {
-        secure: settings.NODE_ENV === 'production' && settings.PROTOCOL === 'https',
-        maxAge: 60 * 60 * 24 * 1000, // 1 day
-        httpOnly: true,
-        domain: 'localhost',
-      },
-      saveUninitialized: true,
-    })
-    .register(routes);
-
-  server.get('*', async (request, reply) => {
+  server.register(routes).get('*', async (request, reply) => {
     const pageContextInit = {
       urlOriginal: request.raw.url || '',
     };
@@ -91,7 +93,12 @@ const buildServer = async (): Promise<FastifyInstance> => {
     if (!httpResponse) return reply.callNotFound();
 
     const { statusCode, headers } = httpResponse;
+    const backendHeaders = reply.getHeaders();
+
     headers.forEach(([name, value]) => reply.raw.setHeader(name, value));
+    Object.entries(backendHeaders).forEach(([name, value]) => {
+      if (value) reply.raw.setHeader(name, value);
+    });
 
     reply.status(statusCode);
     httpResponse.pipe(reply.raw);
