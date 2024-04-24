@@ -1,7 +1,7 @@
 import { AlchemiaHttpMethod } from '$/types';
 
 import * as controllers from '#/app/controllers';
-import { Logger } from '#/utils';
+import { Logger } from '$/utils';
 
 type AlchemiaRouteHistory = {
   middlewares: string[];

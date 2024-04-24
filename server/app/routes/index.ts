@@ -5,7 +5,7 @@ import type { FastifyPluginCallback } from 'fastify';
 import { app as appsMiddlewares } from '#/app/middlewares';
 import * as controllers from '#/app/controllers';
 import { Metadata } from '#/core';
-import { Logger } from '#/utils';
+import { Logger } from '$/utils';
 
 type Route = MetadataControllerMethod & { controller: (typeof controllers)[keyof typeof controllers] };
 

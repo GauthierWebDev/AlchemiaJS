@@ -3,7 +3,7 @@ import type { FastifyInstance } from 'fastify';
 // import { appendFuzzySearch } from "./functions";
 import { settings } from '$/config';
 import buildServer from '#/server';
-import { Logger } from '#/utils';
+import { Logger } from '$/utils';
 
 buildServer()
   .then(async (server: FastifyInstance) => {

@@ -6,7 +6,7 @@ import * as controllers from '#/app/controllers';
 import { Prisma } from '#/services';
 import { Metadata } from '#/core';
 import { errors } from '$/config';
-import { Logger } from '#/utils';
+import { Logger } from '$/utils';
 
 class Controller {
   protected start: bigint;
