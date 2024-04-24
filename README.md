@@ -283,7 +283,7 @@ Contributions are welcome! Here are several ways you can contribute:
 
 ## License
 
-This project is protected under the [MIT](https://choosealicense.com/licenses/mit/) License. For more details, refer to the [MIT](./LICENSE) file.
+This project is protected under the [MIT](https://choosealicense.com/licenses/mit/) License. For more details, refer to the [License](./LICENSE) file.
 
 ---
 
