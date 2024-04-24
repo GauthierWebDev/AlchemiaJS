@@ -1,5 +1,6 @@
-import type { SubCommand, Command } from "@/alambic/libs";
-import { Logger } from "@/utils";
+import type { SubCommand, Command } from '$/alambic/core';
+
+import { Logger } from '$/utils';
 
 const subCommandFinder = (commandArg: string, command: Command): SubCommand => {
   const matchingSubCommands = command.subcommands.filter((subCommand) => {
@@ -7,7 +8,7 @@ const subCommandFinder = (commandArg: string, command: Command): SubCommand => {
   });
 
   if (matchingSubCommands.length === 0) {
-    Logger.setTitle("🧪 Alambic", "error")
+    Logger.setTitle('🧪 Alambic', 'error')
       .addMessage(`Command "${command.name}:${commandArg}" not found`)
       .send();
     process.exit(1);
@@ -17,13 +18,11 @@ const subCommandFinder = (commandArg: string, command: Command): SubCommand => {
 
   if (
     matchingSubCommands.length > 1 &&
-    !matchingSubCommands.find(
-      (subCommand) => subCommand.name === fullCommandArg
-    )
+    !matchingSubCommands.find((subCommand) => subCommand.name === fullCommandArg)
   ) {
     const fullCommandArg = `${command.name}:${commandArg}`;
 
-    const message = Logger.setTitle("🧪 Alambic", "error");
+    const message = Logger.setTitle('🧪 Alambic', 'error');
     const parts = [`Command "${command.name}:${commandArg}" is ambiguous`];
 
     matchingSubCommands.forEach((subcommand) => {
@@ -31,7 +30,7 @@ const subCommandFinder = (commandArg: string, command: Command): SubCommand => {
       const firstPart = fullCommand.slice(0, fullCommandArg.length);
       const lastPart = fullCommand.slice(fullCommandArg.length);
 
-      const parts = ["\n- "];
+      const parts = ['\n- '];
       parts.push(Logger.chalk.bold(firstPart));
       parts.push(lastPart);
     });
@@ -41,9 +40,7 @@ const subCommandFinder = (commandArg: string, command: Command): SubCommand => {
   }
 
   return (
-    matchingSubCommands.find(
-      (subCommand) => subCommand.name === fullCommandArg
-    ) || matchingSubCommands[0]
+    matchingSubCommands.find((subCommand) => subCommand.name === fullCommandArg) || matchingSubCommands[0]
   );
 };
 

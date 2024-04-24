@@ -1,1 +1,1 @@
-export { default as make } from "./make";
+export { default as make } from './make';

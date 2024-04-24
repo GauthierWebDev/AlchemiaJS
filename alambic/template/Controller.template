@@ -1,0 +1,11 @@
+import { route } from '#/app/decorators';
+import { Controller } from '#/core';
+
+class $1 extends Controller {
+  @route({ method: 'get', path: '/$2', middlewares: [] })
+  public async index() {
+    this.render("wip");
+  }
+}
+
+export default $1;

@@ -1,18 +1,5 @@
 {
-  "watch": ["**"],
-  "ext": "ts,json,njk",
-  "ignore": [
-    "./public/**",
-    "./results/**",
-    "./logs/**",
-    "./alambic/**",
-    "./assets/**",
-    "./dist/**"
-  ],
-  "events": {
-    "restart": "echo \"Server restarting, please wait...\"",
-    "successfully-restarted": "echo \"Server restarted successfully\"",
-    "crash": "echo \"Server crashed, waiting for changes...\""
-  },
-  "exec": "tsup --config tsup.config.ts -- dev && node dist"
+  "watch": ["server", "loader.js", "tsconfig.json", "package.json", "config"],
+  "ext": "js,ts,json",
+  "exec": "npm run server"
 }
