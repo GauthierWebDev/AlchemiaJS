@@ -1,9 +1,8 @@
-import { middlewares, route } from '#/app/decorators';
+import { route } from '#/app/decorators';
 import { Controller } from '#/core';
 
 class MediaController extends Controller {
-  @middlewares('auth')
-  @route({ method: 'get', path: '/image' })
+  @route({ method: 'get', path: '/image', middlewares: ['auth'] })
   public async image() {
     this.sendResponse({ message: 'Image' });
   }

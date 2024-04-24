@@ -9,7 +9,7 @@ export type AlchemiaRouteMiddleware = (typeof routeMiddlewares)[keyof typeof rou
 export interface AlchemiaRouteMetadata {
   method: AlchemiaHttpMethod;
   path: string;
-  middlewares?: AlchemiaRouteMiddleware[];
+  middlewares?: (keyof typeof routeMiddlewares)[];
 }
 
 export type LoggerType = 'info' | 'success' | 'warning' | 'debug' | 'error';

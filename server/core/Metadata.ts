@@ -40,6 +40,12 @@ class Metadata {
     return Metadata.instance;
   }
 
+  private findMiddlewars(middleware: string[]) {
+    return Object.entries(routeMiddlewares)
+      .filter(([name]) => middleware.includes(name))
+      .map(([, middleware]) => middleware);
+  }
+
   private findOrCreateControllerMethod(
     controller: (typeof controllers)[keyof typeof controllers],
     controllerMethod: string,
@@ -123,16 +129,7 @@ class Metadata {
 
     controllerMethodMetadata.httpMethod = route.method || 'all';
     controllerMethodMetadata.path = route.path;
-    controllerMethodMetadata.middlewares = route.middlewares || controllerMethodMetadata.middlewares;
-  }
-
-  addMiddlewares(
-    controller: (typeof controllers)[keyof typeof controllers],
-    controllerMethod: string,
-    middlewares: (typeof routeMiddlewares)[keyof typeof routeMiddlewares][],
-  ) {
-    const controllerMethodMetadata = this.findOrCreateControllerMethod(controller, controllerMethod);
-    controllerMethodMetadata.middlewares = middlewares;
+    controllerMethodMetadata.middlewares = this.findMiddlewars(route.middlewares || []);
   }
 }
 
