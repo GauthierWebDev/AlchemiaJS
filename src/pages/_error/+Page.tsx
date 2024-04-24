@@ -6,9 +6,7 @@ function Page() {
   const pageContext = usePageContext();
   let { abortReason } = pageContext;
   if (!abortReason) {
-    abortReason = pageContext.is404
-      ? 'Page not found.'
-      : 'Something went wrong.';
+    abortReason = pageContext.is404 ? 'Page not found.' : 'Something went wrong.';
   }
   return (
     <Center>

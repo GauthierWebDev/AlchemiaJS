@@ -8,17 +8,12 @@ import logoUrl from './logo.svg';
 import type { OnRenderHtmlAsync } from 'vike/types';
 import { getPageTitle } from './getPageTitle';
 
-const onRenderHtml: OnRenderHtmlAsync = async (
-  pageContext,
-): ReturnType<OnRenderHtmlAsync> => {
+const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRenderHtmlAsync> => {
   const { Page } = pageContext;
 
   // This onRenderHtml() hook only supports SSR, see https://vike.dev/render-modes for how to modify
   // onRenderHtml() to support SPA
-  if (!Page)
-    throw new Error(
-      'My onRenderHtml() hook expects pageContext.Page to be defined',
-    );
+  if (!Page) throw new Error('My onRenderHtml() hook expects pageContext.Page to be defined');
 
   // Alternativly, we can use an HTML stream, see https://vike.dev/streaming
   const pageHtml = ReactDOMServer.renderToString(
@@ -29,10 +24,7 @@ const onRenderHtml: OnRenderHtmlAsync = async (
 
   // See https://vike.dev/head
   const title = getPageTitle(pageContext);
-  const desc =
-    pageContext.data?.description ||
-    pageContext.config.description ||
-    'Demo of using Vike';
+  const desc = pageContext.data?.description || pageContext.config.description || 'Demo of using Vike';
 
   const documentHtml = escapeInject`<!DOCTYPE html>
     <html lang="en">
