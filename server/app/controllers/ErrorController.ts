@@ -11,7 +11,6 @@ class ErrorController extends Controller {
   }
 
   public async invalidToken() {
-    await this.updateTokens();
     this.reply.code(401).send({ error: errors.AUTH.INVALID_TOKEN });
   }
 }
