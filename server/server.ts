@@ -1,6 +1,5 @@
 import type { FastifyInstance } from 'fastify';
 
-import fastifyEarlyHints from '@fastify/early-hints';
 import fastifyMultipart from '@fastify/multipart';
 import fastifyCompress from '@fastify/compress';
 import { settings, security } from '$/config';
@@ -10,11 +9,9 @@ import fastifyCookie from '@fastify/cookie';
 import fastifyStatic from '@fastify/static';
 import { renderPage } from 'vike/server';
 import fastifyCors from '@fastify/cors';
-import fastifyVite from '@fastify/vite';
 import routes from '#/app/routes';
 import { root } from './root';
 import Fastify from 'fastify';
-import { request } from 'http';
 
 declare module 'fastify' {
   interface Session {}
@@ -81,7 +78,6 @@ const buildServer = async (): Promise<FastifyInstance> => {
       },
       saveUninitialized: true,
     })
-    .register(fastifyEarlyHints, { warn: true })
     .register(routes);
 
   server.get('*', async (request, reply) => {

@@ -4,7 +4,6 @@ export type Data = Awaited<ReturnType<typeof data>>;
 
 // The node-fetch package (which only works on the server-side) can be used since
 // this file always runs on the server-side, see https://vike.dev/data#server-side
-import fetch from 'node-fetch';
 import type { MovieDetails, Movie } from '../types';
 import type { PageContextServer } from 'vike/types';
 
@@ -12,9 +11,7 @@ import type { PageContextServer } from 'vike/types';
 const data = async (pageContext: PageContextServer) => {
   await sleep(700); // Simulate slow network
 
-  const response = await fetch(
-    'https://brillout.github.io/star-wars/api/films.json',
-  );
+  const response = await fetch('https://brillout.github.io/star-wars/api/films.json');
   const moviesData = (await response.json()) as MovieDetails[];
 
   // We remove data we don't need because the data is passed to the client; we should
